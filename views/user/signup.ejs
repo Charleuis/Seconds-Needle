@@ -1,0 +1,144 @@
+<%- include ('../partials/header') -%>
+<body>
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0" style="background-color: rgba(199, 189, 189, 0.242);">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item"><a href="signin">Sign in</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sign Up</li>
+						
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-color: rgba(212, 212, 212, 0.232);">
+            	<div class="container">
+            		<div class="form-box">
+            			<div class="form-tab">
+	            			<ul class="nav nav-pills nav-fill" role="tablist">
+							    <li class="nav-item">
+							        <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="#register-2" role="tab" aria-controls="register-2" aria-selected="true">Sign Up</a>
+							    </li>
+							</ul>
+							<div class="tab-content">
+							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
+							    	<form   action="/signup" method="post" onsubmit="return validate()">	
+
+                                        <div class="form-group">
+							    			<label for="register-name-2">Name *</label>
+							    			<input type="text" class="form-control" id="register-name-2" name="signin_name" required>
+											<label style="display: none;" id="fname-error"></label>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-group">
+							    			<input type="email" class="form-control" id="register-email-2" name="signin_email"value="<%=signin_email%>" hidden>
+							    		</div><!-- End .form-group -->
+
+										<div class="form-group">
+							    			<label for="register-number-2">Mobile Number *</label>
+							    			<input type="string" class="form-control" id="register-number-2" name="signin_number" required>
+											<label style="display: none;" id="phone-number-error"></label>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-group">
+							    			<label for="register-password-2">Password *</label>
+							    			<input type="password" class="form-control" id="register-password-1" name="signin_password1" required>
+											<label style="display: none;" id="password-error"></label>
+							    		</div><!-- End .form-group -->
+
+                                        <div class="form-group">
+							    			<label for="register-password-2">Confirm password *</label>
+							    			<input type="password" class="form-control" id="register-password-2" name="signin_password2" required>
+											<label style="display: none;" id="confirm-password"></label>
+											<span id="message"></span>
+							    		</div><!-- End .form-group --> 
+                                        
+							    		<div class="form-footer">
+							    			<button type="submit" class="btn btn-outline-secondary col-sm-12" onclick="validate()">
+			                					<span>Submit</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+							    		</div><!-- End .form-footer -->
+							    	</form>
+							    </div><!-- .End .tab-pane -->
+							</div><!-- End .tab-content -->
+						</div><!-- End .form-tab -->
+            		</div><!-- End .form-box -->
+            	</div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+		
+
+		<!-- Validation and password Authentication -->
+
+
+			<script>
+			function checkPassword() {
+				console.log("hello");
+					let password = document.getElementById("register-password-1").value;
+					let cnfrmPassword = document.getElementById("register-password-2").value;
+					console.log("Password:", password, "\n", "Confirm Password:", cnfrmPassword);
+					let message = document.getElementById("message");
+
+					// if password matches confirm password and doesnt match
+
+					if (password.length !== 0) {
+						if (password === cnfrmPassword) {
+							return true; 
+						} else {
+							message.textContent = "Passwords doesn't match"; 
+							return false; // Prevent form submission
+						}
+					} else {
+						message.textContent = "Password can't be empty!";
+						return false; // Prevent form submission
+					}
+				}
+			
+
+		function validate() {
+		var name = document.getElementById("register-name-2").value.trim();
+		var phone = document.getElementById("register-number-2").value;
+		var password = document.getElementById("register-password-1").value;
+		var confirmPassword = document.getElementById("register-password-2").value;
+		var nameFormat = /^[a-zA-Z ]+$/;
+		var phoneFormat = /^\d{10}$/;
+		let nameError = document.getElementById("fname-error");
+		
+		let phoneError = document.getElementById("phone-number-error");
+		let passwordError = document.getElementById("password-error");
+
+		if (!name.match(nameFormat)) {
+			nameError.style.display = ''
+			nameError.textContent = "Enter Correct Name!";
+			nameError.style.color = "#ff4d4d";
+			return false;
+		} else nameError.style.display = 'none'
+
+		
+
+		if (!phone.match(phoneFormat)) {
+			phoneError.style.display = ''
+			phoneError.textContent = "Enter Valid Phone Number!";
+			phoneError.style.color = "#ff4d4d";
+			return false;
+		} else phoneError.style.display = 'none'
+
+		if (password.length < 6) {
+			passwordError.style.display = ''
+			passwordError.textContent = "Password should be at least 6 characters!";
+			passwordError.style.color = "#ff4d4d";
+			return false;
+		} else passwordError.style.display = 'none'
+
+
+		return checkPassword();
+
+		return true;
+	}
+
+			</script>
+        <%- include ('../partials/footer') -%>
+       

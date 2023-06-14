@@ -1,0 +1,118 @@
+<%- include ('./partials/header') -%>
+        <section class="content-main">
+            <form action="/admin/addproduct" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                        <div>
+                            <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                            <button class="btn btn-md rounded font-sm hover-up">Publich</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-4">
+                                    <label class="form-label">Brand</label>
+                                    <select name="brand" class="form-select" >
+                                        <%brand.forEach(function(Brand){%>
+                                            <option> <%=Brand.brandName%> 
+                                            </option>   
+                                        <%})%>                                     
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Product title</label>
+                                    <input type="text" placeholder="Type here" class="form-control" name="productname" id="product_name">
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-6">
+                                            <label class="form-label">Quantity</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="" type="text" name="quantity" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-6">
+                                            <label class="form-label">Price</label>
+                                            <input placeholder="₹" type="text" name="price" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Full description</label>
+                                    <textarea placeholder="Type here" class="form-control" name="description" rows="4"></textarea>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div> <!-- card end// -->
+                 
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Photos</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="asset/imgs/theme/upload.svg" alt="">
+                                <input class="form-control" type="file" name="productimage" multiple>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Organization</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gx-2">
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select name="category" class="form-select">
+                                        <%category.forEach(function(Category){%>
+                                            <option> <%=Category.categoryName%> 
+                                            </option>   
+                                        <%})%>                                     
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Gender</label>
+                                    <select name="gender" class="form-select">
+                                        <option>Men</option>
+                                        <option>Women</option>
+                                        <option>Kids</option>
+                                    </select>
+                                    </div>
+                                <!-- <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Sub-category</label>
+                                    <select class="form-select">
+                                        <option> Nissan </option>
+                                        <option> Honda </option>
+                                        <option> Mercedes </option>
+                                        <option> Chevrolet </option>
+                                    </select>
+                                </div> -->
+                                <!-- <div class="mb-4">
+                                    <label for="product_name" class="form-label">Tags</label>
+                                    <input type="text" class="form-control">
+                                </div> -->
+                            </div> <!-- row.// -->
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+            </div>
+        </form>
+        </section> <!-- content-main end// -->
+        <%- include ('./partials/footer') -%>
+        

@@ -1,0 +1,89 @@
+<%- include ('./partials/header') -%>
+        <section class="content-main">
+            <form action="/admin/updateproduct"method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Edit Product</h2>
+                        <div>
+                            <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">  
+                            <input type="hidden" name="id" value="<%=productdata._id%>">                         
+                            <div class="mb-4">  
+                                    <label for="product_name" class="form-label">Product title</label>
+                                    <input type="text" placeholder="" class="form-control" name="productname" id="product_name" value="<%=productdata.productname%>">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Brand</label>
+                                    <input type="text" placeholder="" class="form-control" name="brand" id="product_name" value="<%=productdata.brand%>">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-6">
+                                            <label class="form-label">Quantity</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="" type="text" name="quantity" class="form-control" value="<%=productdata.quantity%>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-6">
+                                            <label class="form-label">Price</label>
+                                            <input placeholder="" type="text" name="price" class="form-control"value="<%=productdata.price%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Full description</label>
+                                    <textarea placeholder="" class="form-control" name="description" rows="4"><%=productdata.description%></textarea>
+                                </div>
+                        </div>
+                    </div> <!-- card end// -->
+                 
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Photos</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <% for(let i=0;i<4;i++){ %>
+                                <img src="/upload/<%=productdata.productimage[i] %>" alt="">
+                                <% } %>
+                                <input class="form-control" type="file" name="productimage" multiple>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Organization</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gx-2">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" name="category">
+                                        
+                                            <option value="">
+                                                <%= productdata.category %>
+                                            </option>
+                                    </select>
+                                </div>                                
+                            </div> <!-- row.// -->
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+            </div>
+        </form>
+        </section> <!-- content-main end// -->
+        <%- include ('./partials/footer') -%>

@@ -1,0 +1,72 @@
+<%- include ('../partials/header') -%>
+<body>
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0" style="background-color: rgba(199, 189, 189, 0.242); ">
+                <div class="container ">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sing In</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-color: rgba(203, 203, 203, 0.232);">
+            	<div class="container">
+            		<div class="form-box">
+            			<div class="form-tab">
+	            			<ul class="nav nav-pills nav-fill" role="tablist">
+							    <li class="nav-item">
+							        <a class="nav-link active" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab" aria-controls="signin-2" aria-selected="false">Sign In</a>
+							    </li>
+							   
+							</ul>
+							<div class="tab-content">
+							    <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+							    	<form action="signin" method="post">
+							    		<div class="form-group">
+							    			<label for="singin-email-2">Email address *</label>
+							    			<input type="email" class="form-control" id="singin-email-2" name="login_email" required>
+							    		</div><!-- End .form-group -->
+							    		<div class="form-group">
+							    			<label for="singin-password-2">Password *</label>
+							    			<input type="password" class="form-control" id="singin-password-2" name="login_password" required>
+											<span class="text-danger"><%-locals.message-%></span><br>
+											<!-- <div class="container" >
+                                            <a href="/forgetPass" class="forgot-link">Forgot Your Password?</a>
+											</div> -->
+							    		</div><!-- End .form-group -->
+							    		<div class="row">
+								    		<div class="col-sm-6">
+								    			<button class="btn btn-outline-success col-sm-12">
+								    				Sign In
+												</button>
+								    		</div><!-- End .col-6 -->
+								    		<div class="col-sm-6">
+								    			<a href="otplog" class="btn btn-outline-success col-sm-12">
+								    				Sign In with OTP
+								    			</a>
+								    		</div><!-- End .col-6 -->
+								    	</div><!-- End .row -->
+							    	</form>
+							    	<div class="form-choice  mt-2">
+								    	<p class="text-center">Create a Account</p>
+								    	<div class="row">
+								    		
+                                            <div class="col-sm-12">
+								    			<a href="signup" class="btn btn-outline-secondary col-sm-12">
+								    				<i class="fa-solid fa-user-plus"></i>
+								    				Sign Up
+								    			</a>
+								    		</div><!-- End .col-4 -->
+								    	</div><!-- End .row -->
+							    	</div><!-- End .form-choice --> 
+							    </div><!-- .End .tab-pane -->
+							</div><!-- End .tab-content -->
+						</div><!-- End .form-tab -->
+            		</div><!-- End .form-box -->
+            	</div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+        <%- include ('../partials/footer') -%>
+       

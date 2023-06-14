@@ -1,0 +1,204 @@
+<%- include ('../partials/header') -%>
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Checkout<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="checkout">
+            <div class="container">
+                <h4 class="page-title">Address</h4>
+                
+                    <div class="row">
+                        <aside class="col-lg-9">
+                            <div class="widget-body">
+                               
+                                <div class="filter-items">
+                                    <% useraddress.forEach(function(address){ %>
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input address" id="address-<%= address._id %>" name="customerAddress" value="<%= address._id %>" required> 
+
+                                            <label class="custom-control-label" for="address-<%= address._id %>"><%= address.name %></label>                                            
+                                                <p><%=address.address %><br>
+                                                <%=address.city %><br>
+                                                <%=address.State %><br>
+                                                <%=address.landmark %><br>
+                                                <%=address.Pincode %><br>
+                                                <%=address.phone %><br>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+                                    <%}); %>
+                                </div>
+                                <div class="checkout-discount">
+                                    <form action="#">
+                                        <a class="btn btn-outline-primary-2 mt-3" id="tab-address-link" href="/addAddress" role="tab"><span>Add Address</span><i class="icon-long-arrow-right"></i></a>
+                
+                                    </form>
+                                </div><!-- End .checkout-discount -->
+                              
+                            </div>
+                         
+                        </aside>
+                    </aside>
+                        <aside class="col-lg-3">
+                            <div class="summary">
+                                <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+                                <table class="table table-summary">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <% cart.products.forEach(function(product) { %>
+                                        <tr>
+                                            
+                                            <td><a href="#"><%= product.productid.productname %></a></td>
+                                            <td>₹ <%= product.productid.price * product.Cartquantity %>.00</td>
+                                           
+                                        </tr>
+                                        <% }); %>
+                                        <% let grandTotal=0 %>
+                                        <% for (let i = 0; i < cart.products.length; i++) {
+                                            
+                                           grandTotal= grandTotal+cart.products[i].productid.price * cart.products[i].Cartquantity
+                                            
+                                        } %>
+                                        <tr class="summary-subtotal">
+                                            <td>Subtotal:</td>
+                                            <td>₹ <%=grandTotal%>.00</td>
+                                        </tr><!-- End .summary-subtotal -->
+                                        <tr>
+                                            <td>Shipping:</td>
+                                            <td>Free shipping</td>
+                                        </tr>
+                                        <tr class="summary-total">
+                                            <td>Total:</td>
+                                            <td id="finalTotal">₹ <%=grandTotal%>.00</td>
+                                        </tr><!-- End .summary-total -->
+                                    </tbody>
+                                   
+                                </table><!-- End .table table-summary -->
+
+                                <div class="accordion-summary" id="accordion-payment">
+                                    <div class="card-header" id="heading-3">
+                                   
+                                        <h2 class="card-title">
+                                            <a class="method" role="radio" data-method="COD" data-toggle="collapse" value="COD" href="#collapse-3" aria-expanded="true" aria-controls="collapse-3">
+                                                Cash on delivery
+                                            </a>
+                                        </h2>
+                                        <h2 class="card-title">
+                                            <a class="method" role="radio" data-method="Razorpay" data-toggle="collapse" value="Razorpay" href="#collapse-3" aria-expanded="true" aria-controls="collapse-2">
+                                                Razorpay
+                                            </a>
+                                        </h2>
+                                    </div>
+                                </div><!-- End .card-header -->
+
+                                   <!-- <div class="card">
+                                        <div class="card-header" id="heading-4">
+                                            <h2 class="card-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                                                    PayPal <small class="float-right paypal-link">What is PayPal?</small>
+                                                </a>
+                                            </h2>
+                                        </div>< End .card-header -->
+                                      <!--  <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+                                            <div class="card-body">
+                                                Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
+                                            </div>< End .card-body -->
+                                      <!--  </div>< End .collapse -->
+                                   <!-- </div> End .card -->
+                               <!-- </div> End .accordion -->
+
+                                <button type="submit" id="placeOrder" class="btn btn-outline-primary-2 btn-order btn-block mt-2">
+                                    <span>Place Order</span>
+                                </button>
+                            </div><!-- End .summary -->
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .checkout -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+<%- include ('../partials/footer') -%>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+<script>
+   $("#placeOrder").on("click",function(){
+    var address =$("input[name=customerAddress]:checked").val();
+    if(!address){
+        Swal.fire({
+            title:"Address",
+            text:"Address not Selected",
+            icon:"error",
+            confirmButtonText:"OK"
+        }).then((result)=>{
+            if(result.isConfirmed){
+                location.reload();
+            }
+        })
+    }else{
+        var paymentMethod =$(
+            '.accordion-summary .card-header .method[aria-expanded="true"]'
+        ).data("method");
+        // var discount = $("#dis").text().trim();
+        var purchase =$('#finalTotal').text().replace(/[^\d\.]/g, "");
+        var data ={
+            paymentmethod:paymentMethod,
+            total:purchase,
+            address:address,
+        };
+        $.ajax({
+            url:"/placeOrder",
+            method:"post",
+            data:data,
+
+            success: function(responce){
+                if (responce.message == "1") {
+                    console.log(responce.message);
+                    Swal.fire({
+                        title: "Success",
+                        text: "Order placed successfully",
+                        icon: "success",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            console.log('user porfiel ejs')
+                            window.location.href = "/userdash";
+                        }
+                    });
+                    } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Something went worng try again after sometimes",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                    }
+            },
+        });
+    }
+   });
+</script>

@@ -1,0 +1,226 @@
+<%- include ('../partials/header') -%>
+        <div class="container">
+            <div class="toolbox toolbox-filter">
+                <div class="toolbox-left">
+                    <a href="#" class="filter-toggler">Filters</a>
+
+                </div><!-- End .toolbox-left -->
+                <div class="toolbox-right">
+                    <ul class="nav-filter product-filter">
+                        <li class="active"><a href="#" data-filter="*">All</a></li>
+                        <li><a href="#" data-filter=".furniture">Smart Watches</a></li>
+                        <li><a href="#" data-filter=".lighting">Lighting</a></li>
+                        <li><a href="#" data-filter=".accessories">Accessories</a></li>
+                        <li><a href="#" data-filter=".sale">Sale</a></li>
+                    </ul>
+                </div><!-- End .toolbox-right -->
+            </div><!-- End .filter-toolbox -->
+
+            <div class="widget-filter-area" id="product-filter-area">
+                <a href="#" class="widget-filter-clear">Clean All</a>
+
+                <div class="filter-area-wrapper">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h3 class="widget-title">
+                                    Category:
+                                </h3><!-- End .widget-title -->
+
+                                <div class="filter-items filter-items-count">
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cat-1">
+                                            <label class="custom-control-label" for="cat-1">All</label>
+                                        </div><!-- End .custom-checkbox -->
+                                        <span class="item-count">24</span>
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cat-2">
+                                            <label class="custom-control-label" for="cat-2">Furniture</label>
+                                        </div><!-- End .custom-checkbox -->
+                                        <span class="item-count">3</span>
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cat-3">
+                                            <label class="custom-control-label" for="cat-3">Lighting</label>
+                                        </div><!-- End .custom-checkbox -->
+                                        <span class="item-count">2</span>
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cat-4">
+                                            <label class="custom-control-label" for="cat-4">Accessories</label>
+                                        </div><!-- End .custom-checkbox -->
+                                        <span class="item-count">4</span>
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cat-5">
+                                            <label class="custom-control-label" for="cat-5">Sale</label>
+                                        </div><!-- End .custom-checkbox -->
+                                        <span class="item-count">2</span>
+                                    </div><!-- End .filter-item -->
+                                </div><!-- End .filter-items -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h3 class="widget-title">
+                                    Sort by:
+                                </h3><!-- End .widget-title -->
+
+                                <div class="filter-items">
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" class="custom-control-input" checked id="sort-1"
+                                                name="sortby">
+                                            <label class="custom-control-label" for="sort-1">Default</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" class="custom-control-input" id="sort-2" name="sortby">
+                                            <label class="custom-control-label" for="sort-2">Popularity</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" class="custom-control-input" id="sort-3" name="sortby">
+                                            <label class="custom-control-label" for="sort-3">Average Rating</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" class="custom-control-input" id="sort-4" name="sortby">
+                                            <label class="custom-control-label" for="sort-4">Newness</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" class="custom-control-input" id="sort-5" name="sortby">
+                                            <label class="custom-control-label" for="sort-5">Price: Low to High</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="radio" class="custom-control-input" id="sort-6" name="sortby">
+                                            <label class="custom-control-label" for="sort-6">Price: High to Low</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .filter-item -->
+                                </div><!-- End .filter-items -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h3 class="widget-title">
+                                    Colour:
+                                </h3><!-- End .widget-title -->
+
+                                <div class="filter-colors filter-colors-vertical">
+                                    <a href="#" style="background: #b87145;"><span>Brown</span></a>
+                                    <a href="#" style="background: #f0c04a;"><span>Yellow</span></a>
+                                    <a href="#" style="background: #333333;"><span>Black</span></a>
+                                    <a href="#" class="selected" style="background: #cc3333;"><span>Red</span></a>
+                                    <a href="#" style="background: #ebebeb;"><span>White</span></a>
+                                </div><!-- End .filter-colors -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h3 class="widget-title">
+                                    Price:
+                                </h3><!-- End .widget-title -->
+
+                                <div class="filter-price">
+                                    <div class="filter-price-text">
+                                        Price Range:
+                                        <span id="filter-price-range"></span>
+                                    </div><!-- End .filter-price-text -->
+
+                                    <div id="price-slider"></div><!-- End #price-slider -->
+                                </div><!-- End .filter-price -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .filter-area-wrapper -->
+            </div><!-- End #product-filter-area.widget-filter-area -->
+
+                    
+                        <div class="row">
+                            <% product.forEach(function(product) { %>
+                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                                <div class="product">
+                                    <figure class="product-media">
+                                        <a href="/singleProduct?id=<%=product._id%>&slug="  class="product-link">
+                                            <img src="upload/<%=product.productimage[2]%>" alt="Product image" class="product-image">
+                                        </a>
+                            
+                                        <div class="product-action-vertical">
+                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                    wishlist</span></a>
+                                        </div><!-- End .product-action -->
+                            
+                                        <div class="product-action action-icon-top">
+                                            <a href="/cartadd?id=<%=product._id%>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <!-- <a href="/singleProduct?id=<%=product._id%>" class="btn-product btn-quickview" title="Quick view"><span>quick
+                                                    view</span></a> -->
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
+                            
+                                    <div class="product-body">
+                                        <h2 class="product-title font-weight-normal"><a href="product.html"><%=product.brand%></a></h2>
+                                        <h2 class="product-title font-weight-light product-title"><a href="/singleProduct?id=<%=product._id%>"><%=product.productname%></a></h2>
+                                        <!-- End .product-title -->
+                                        <div class="product-price">
+                                            MRP ₹<%= product.price.toLocaleString('en-IN') %>
+                                        </div><!-- End .product-price -->
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 3 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->  
+                            <% }); %>
+            </div><!-- End .container -->
+    <%- include ('../partials/footer') -%>
+
+<!-- 
+<script src="path/to/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        
+        $(".product-link").click(function(e) {
+            e.preventDefault();
+            var productName = $(this).find('.product-title').text();
+            var slug = generateSlug(productName);
+
+            var productURL = $(this).attr('href');
+            productURL += slug;
+            window.location.href = productURL;
+        });
+
+        function generateSlug(text) {
+            return text.toLowerCase().replace(/\s/g, '-');
+        }
+    });
+</script> -->
