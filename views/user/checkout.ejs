@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Shop</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Checkout</li>
             </ol>
@@ -23,41 +23,70 @@
                 
                     <div class="row">
                         <aside class="col-lg-9">
-                            <div class="widget-body">
-                               
-                                <div class="filter-items">
-                                    <% useraddress.forEach(function(address){ %>
-                                    <div class="filter-item">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input address" id="address-<%= address._id %>" name="customerAddress" value="<%= address._id %>" required> 
-
-                                            <label class="custom-control-label" for="address-<%= address._id %>"><%= address.name %></label>                                            
-                                                <p><%=address.address %><br>
-                                                <%=address.city %><br>
-                                                <%=address.State %><br>
-                                                <%=address.landmark %><br>
-                                                <%=address.Pincode %><br>
-                                                <%=address.phone %><br>
-                                        </div><!-- End .custom-checkbox -->
-                                    </div><!-- End .filter-item -->
-                                    <%}); %>
-                                </div>
-                                <div class="checkout-discount">
+                            <table id="myTable" class="table table-cart table-mobile">
+                                <% if (useraddress.length > 0) { %>
+                                <!-- <h3 class="card-title my-2">Shipping Address</h3> -->
+                                <a class="nav-link" id="tab-add-link" href="/addAddress"
+                                            >Add New address<i class="icon-edit"></i
+                                        ></a>
+                                <!-- End .card-title -->
+                                <% useraddress.reverse().forEach(function(address) { %>
+                                <tbody>
+                                    <tr>
+                                    <td class="product-col">
+                                        <input class="form-check-input mt-5 address" id="<%=address._id %>" type="radio" value="<%=address._id %>" name="customerAddress" required/>
+                    
+                                        <p class="ml-5">
+                                        <strong><%= address.name %></strong>,<br> <%=address.address%>,<br>
+                                        <%=address.landmark%>, <br>
+                                        <%=address.city%>, <%=address.State%>. Pin:<%=address.Pincode%> <br>
+                                        Phone No : <%=address.phone%>
+                                        </p>
+                                    </td>
+                                    </tr> 
+                                </tbody>
+                                <% }); %>
+                                <% } else { %>
+                                        <h5>No Address Saved.</h5>
+                                        <a href="/addAddress" class="btn btn-outline-primary-2">
+                                            <span>ADD ADDRESS</span><i class="icon-long-arrow-right"></i>
+                                        </a>
+                                <% } %>
+                                </table>
+                                <div class="cart-discount">
                                     <form action="#">
-                                        <a class="btn btn-outline-primary-2 mt-3" id="tab-address-link" href="/addAddress" role="tab"><span>Add Address</span><i class="icon-long-arrow-right"></i></a>
-                
+                                        <p style="color: green;" id="success"></p>
+                                        <p style="color: red;" id="invalid"></p>
+                                        <div class="input-group mt-2">                                        
+                                            <input type="text" class="form-control" id="couponcode" name="couponcode" placeholder="coupon code" />
+                                            <div class="input-group-append">
+                                                <button style="height: auto;margin-bottom: 1.3em;" class="couponbtn btn btn-outline-primary-2" type="button">
+                                                    <i class="icon-long-arrow-right"></i>
+                                                </button>
+                                            </div><!-- .End .input-group-append -->
+                                        </div><!-- End .input-group -->
                                     </form>
-                                </div><!-- End .checkout-discount -->
-                              
-                            </div>
-                         
+                                </div><!-- End .cart-discount -->
+                                <p class="mb-1">You Can use Any one coupon</p>
+                                <div class="row">
+                                    <% coupons.forEach(coupon => { %>
+                                        <div class="col-lg-6">
+                                            <div class="card card-dashboard">
+                                                <div class="card-body" style="background-color: rgb(172, 103, 103); color: white;" >
+                                                    <h3 class="card-title" style="color: white;" >Coupon Code: <%-coupon.couponCode%></h3>
+                                                     Discount Price : ₹ <%-coupon.couponAmount%><br>
+                                                     For Every Purchase above ₹ <%-coupon.minimumAmount%><br>
+                                                    Coupon Valid until <%=new Date(coupon.expireDate).toLocaleDateString()%><br>
+                                                </div><!-- End .card-body -->
+                                            </div><!-- End .card-dashboard -->
+                                        </div><!-- End .col-lg-6 -->
+                                    <% }) %>
                         </aside>
-                    </aside>
                         <aside class="col-lg-3">
                             <div class="summary">
                                 <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
 
-                                <table class="table table-summary">
+                                <table id="protable" class="table table-summary">
                                     <thead>
                                         <tr>
                                             <th>Product</th>
@@ -70,47 +99,82 @@
                                         <tr>
                                             
                                             <td><a href="#"><%= product.productid.productname %></a></td>
-                                            <td>₹ <%= product.productid.price * product.Cartquantity %>.00</td>
+                                            <td class="proprice">₹ <%= product.productid.price * product.Cartquantity %>.00</td>
                                            
                                         </tr>
                                         <% }); %>
-                                        <% let grandTotal=0 %>
-                                        <% for (let i = 0; i < cart.products.length; i++) {
-                                            
-                                           grandTotal= grandTotal+cart.products[i].productid.price * cart.products[i].Cartquantity
-                                            
-                                        } %>
+                                    </tbody>
+                                </table>
+                                <table class="table table-summary">
+                                    <tbody>
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
-                                            <td>₹ <%=grandTotal%>.00</td>
+                                            <td id="subtotal"></td>
                                         </tr><!-- End .summary-subtotal -->
+                                        <tr>
+                                            <td>Coupon Discount:</td>
+                                            <td id="discount">₹0.00</td>
+                                        </tr>
                                         <tr>
                                             <td>Shipping:</td>
                                             <td>Free shipping</td>
                                         </tr>
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td id="finalTotal">₹ <%=grandTotal%>.00</td>
+                                            <td id="finalTotal"></td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                    
                                 </table><!-- End .table table-summary -->
 
                                 <div class="accordion-summary" id="accordion-payment">
-                                    <div class="card-header" id="heading-3">
-                                   
-                                        <h2 class="card-title">
-                                            <a class="method" role="radio" data-method="COD" data-toggle="collapse" value="COD" href="#collapse-3" aria-expanded="true" aria-controls="collapse-3">
-                                                Cash on delivery
-                                            </a>
-                                        </h2>
-                                        <h2 class="card-title">
-                                            <a class="method" role="radio" data-method="Razorpay" data-toggle="collapse" value="Razorpay" href="#collapse-3" aria-expanded="true" aria-controls="collapse-2">
-                                                Razorpay
-                                            </a>
-                                        </h2>
-                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="heading-1">
+                                            <h2 class="card-title">
+                                                <a class="method" role="button" data-method="COD" value="COD" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                                    Cash on delivery
+                                                </a>
+                                            </h2>
+                                        </div><!-- End .card-header -->
+                                        <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
+                                            <div class="card-body">
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .collapse -->
+                                    </div><!-- End .card -->
+                                
+                                    <div class="card">
+                                        <div class="card-header" id="heading-4">
+                                            <h2 class="card-title">
+                                                <a class="collapsed method" value="Razorpay" role="button" data-method="Razorpay" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                                                    Razorpay
+                                                </a>
+                                            </h2>
+                                        </div><!-- End .card-header -->
+                                        <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+                                            <div class="card-body">
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .collapse -->
+                                    </div><!-- End .card -->
                                 </div><!-- End .card-header -->
+
+                                <!-- <tr class="summary-shipping-row">
+                                    <td>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="free-shipping" name="shipping" class="custom-control-input method" value="COD">
+                                            <label class="custom-control-label" for="free-shipping">Free Shipping</label> -->
+                                        <!--</div> End .custom-control -->
+                                    <!-- </td> -->
+                               <!-- </tr> End .summary-shipping-row -->
+
+                                <!-- <tr class="summary-shipping-row">
+                                    <td>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
+                                            <label class="custom-control-label" for="standart-shipping">Standart:</label> -->
+                                       <!--  </div>End .custom-control -->
+                                    <!-- </td> -->
+                             <!--   </tr> End .summary-shipping-row -->
+
 
                                    <!-- <div class="card">
                                         <div class="card-header" id="heading-4">
@@ -144,61 +208,207 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 
 <script>
-   $("#placeOrder").on("click",function(){
-    var address =$("input[name=customerAddress]:checked").val();
-    if(!address){
-        Swal.fire({
-            title:"Address",
-            text:"Address not Selected",
-            icon:"error",
-            confirmButtonText:"OK"
-        }).then((result)=>{
-            if(result.isConfirmed){
-                location.reload();
-            }
-        })
-    }else{
-        var paymentMethod =$(
-            '.accordion-summary .card-header .method[aria-expanded="true"]'
-        ).data("method");
-        // var discount = $("#dis").text().trim();
-        var purchase =$('#finalTotal').text().replace(/[^\d\.]/g, "");
-        var data ={
-            paymentmethod:paymentMethod,
-            total:purchase,
-            address:address,
-        };
-        $.ajax({
-            url:"/placeOrder",
-            method:"post",
-            data:data,
 
-            success: function(responce){
-                if (responce.message == "1") {
-                    console.log(responce.message);
-                    Swal.fire({
-                        title: "Success",
-                        text: "Order placed successfully",
-                        icon: "success",
-                        confirmButtonText: "OK",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            console.log('user porfiel ejs')
-                            window.location.href = "/userdash";
+$(document).ready(function () {
+	update_amounts();  
+  });
+
+  function update_amounts() {
+  let subtotal = 0;
+  
+  $("#protable > tbody > tr").each(function() {
+    let price = $(this)
+      .find(".proprice")
+      .text()
+      .replace(/[^\d\.]/g, "");
+    let total = parseInt(price);
+    subtotal += total;
+  });
+
+  let couponrs = $('#discount')
+    .text()
+    .replace(/[^\d\.]/g, "");
+  couponrs = parseInt(couponrs);
+
+  let total = subtotal - couponrs;
+
+  $("#subtotal").text("₹" + subtotal.toFixed(2));
+
+  $("#finalTotal").text("₹" + total.toFixed(2));
+}
+
+
+  $(document).ready(function(){
+	  $(".couponbtn").on("click",function(){
+		  console.log('clicked')
+		  var coupon = $("#couponcode").val();
+		  let subtotal = $("#subtotal").text().replace(/[^\d\.]/g, "");
+		  subtotal = parseInt(subtotal);
+		  let data = {code:coupon, amount:subtotal};
+		  $.ajax({
+			  url:"/checkvalidcoupon",
+			  method:'POST',
+			  data: data,
+  
+			  success:function(response){
+				  if (response.msg == "1") {
+					  let discount = response.discount;
+					  $("#discount").text("₹" + discount.toFixed(2));
+					  update_amounts();
+					  document.getElementById("success").innerHTML = "Coupon Applied"
+				  } else {
+					  document.getElementById("invalid").innerHTML = response.message
+					  setTimeout(function() {
+					  document.getElementById("invalid").innerHTML = "";                
+					  }, 2000);
+					  $("#couponcode").val("")
+				  }
+			  }
+		  }) 
+	  })
+  })
+
+
+    $(document).ready(function() {
+        $("#placeOrder").on("click", function() {
+            var address = $("input[name=customerAddress]:checked").val();
+            if (!address) {
+                Swal.fire({
+                    title: "Address",
+                    text: "Address not Selected",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            } else {
+                var paymentMethod =  $('.accordion-summary .card-header .method[aria-expanded="true"]').data("method");
+                console.log(paymentMethod);
+                var coupon = $("#couponcode").val();
+                // var productPrice = $('#')
+                var purchase = $('#finalTotal').text().replace(/[^\d\.]/g, "");
+                var couponamount = $("#discount").text().replace(/[^\d\.]/g, "");
+                var data = {
+                    paymentmethod: paymentMethod,
+                    coupon:coupon,
+                    total: purchase,
+                    address: address,
+                    discount:couponamount,
+                };
+                if(paymentMethod == 'Razorpay'){
+              
+                    $.ajax({
+                        url: "/razorpay",
+                        type: "POST",
+                        data: {  amount: purchase },
+
+                        success: function(res) {
+                            if(!res.message){
+                                stockOut(res.msg);
+                            } else {
+                                console.log(res.success)
+                                if (res.success) {
+                                    var options = {
+                                        // Options for the Razorpay payment flow
+                                        "key": "" + res.key_id + "",
+                                        "amount": "" + res.amount + "",
+                                        "currency": "INR",
+                                        "name": 'Seconds Needle',
+                                        // "description": "" + res.description + "",
+                                        "image": "https://dummyimage.com/600x400/000/fff",
+                                        "handler": function(response) {
+                                            // Code executed when the payment is successful
+                                            Swal.fire({
+                                                title: "Success",
+                                                text: "Order Success",
+                                                icon: "info",
+                                                confirmButtonText: "OK"
+                                            }).then(function() {
+                                                saveOrder(); // Call the function to save the order
+                                            });
+                                        },
+                                        "prefill": {
+                                        // "contact": "" + res.contact + "",
+                                        "name": "" + res.name + "",
+                                        "email": "" + res.email + ""
+                                        },
+                                        "notes": {
+                                        "description": "Description"
+                                        },
+                                        "theme": {
+                                        "color": "#2300a3"
+                                        }
+                                    };
+                                    var razorpayObject = new Razorpay(options);
+
+                                    razorpayObject.on("payment.failed", function(response) {
+                                        // Code executed when the payment fails
+                                        Swal.fire({
+                                        title: "Payment Failed",
+                                        text: "Order Not Placed",
+                                        icon: "error",
+                                        confirmButtonText: "OK"
+                                        });
+                                    });
+                                    razorpayObject.open();
+                                } else {
+                                    alert(res.msg);
+                                }
+                            }
                         }
                     });
-                    } else {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Something went worng try again after sometimes",
-                        icon: "error",
-                        confirmButtonText: "OK",
+                } else {
+                    saveOrder();
+                }
+                function saveOrder() {
+                    $.ajax({
+                        url: "/placeOrder",
+                        method: "post",
+                        data: data,
+
+                        success: function (response) {
+                            if (response.message == "1") {
+                                Swal.fire({
+                                title: "Success",
+                                text: "Order placed successfully",
+                                icon: "success",
+                                confirmButtonText: "OK",
+                                }).then((result) => {
+                                    console.log(response.orderplaceid);
+                                    if (result.isConfirmed) {
+                                    window.location.href = "/sucess?id="+response.orderplaceid; // Redirect to profile page
+                                    }
+                                });
+                            } else if(response.message == "0"){
+                                stockOut(response.msg);
+                            } else {
+                                console.log('error')
+                                Swal.fire({
+                                title: "Error",
+                                text: "Something went worng try again after sometimes",
+                                icon: "error",
+                                confirmButtonText: "OK",
+                                });
+                            }
+                        },
                     });
-                    }
-            },
+                }
+
+                function stockOut(msg){
+                    Swal.fire({
+                        title: "Stock Out",
+                        text: msg,
+                        icon: "info",
+                        confirmButtonText: "OK"
+                    });
+                }
+            }
         });
-    }
-   });
+    }) 
 </script>

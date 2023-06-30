@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
           },
           price:{
             type:Number,
-            required:false
+            required:true,
         },
           quantity: {
             type: Number,
@@ -23,13 +23,13 @@ const orderSchema = new mongoose.Schema({
           },
         },
       ],
-    couponName:{
+    couponCode:{
         type:String,
         required:false
     },
     couponAmount:{
         type:Number,
-        required:false
+        required:true
     },
     totalAmount:{
         type:Number,
@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema({
     status:{
         type:String,
        default: "Pending",
+    },
+    delete:{
+      type:String,
+      default:"no"
     },
     address:{
         type:mongoose.Schema.Types.ObjectId,

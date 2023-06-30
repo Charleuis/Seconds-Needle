@@ -13,10 +13,10 @@ const categorySchema= mongoose.Schema({
         type:String,
         require:true,
     },
-    // list:{
-    //     type:Number,
-    //     default:0
-    // }
+    list:{
+        type:Number,
+        default:0
+    },
     status:{
         type:Boolean,
         default:true

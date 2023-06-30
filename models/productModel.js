@@ -1,5 +1,4 @@
 const product = require('mongoose')
-const slugify=require('slugify')
 
 const userInSchema = new product.Schema({
   productname: {
@@ -29,6 +28,10 @@ const userInSchema = new product.Schema({
   description: {
     type: String,
     required: true
+  },
+  isActive: {
+    type:String,
+    default:"Yes"
   },
   productimage: {
     type: Array,

@@ -1,0 +1,33 @@
+<%- include ('./partials/header') -%>
+<section class="content-main">
+    <div class="content">
+            <div class=" card-title">
+                <h2 class="content-title">Edit Brand</h2>
+                <p>Edit Your brand</p>
+            </div>
+    <div>
+    <form action="/admin/updatebrand" method="post">
+        <input type="hidden" name="id" value="<%=brand._id%>">
+        <div class="">
+            <label for="product_name" class="form-label">Name</label>
+            <input type="text" placeholder="Type here" class="form-control" id="category_name" name="brandName" value="<%=brand.brandName%>"/>
+        </div>
+        <!-- <div class="mb-4">
+            <label class="form-label">Parent</label>
+            <select class="form-select">
+                <option>Clothes</option>
+                <option>T-Shirts</option>
+            </select>
+        </div> -->
+        <div class="">
+            <label class="form-label">Description</label>
+            <textarea placeholder="Type here" class="form-control" name="brandDescription" ><%=brand.brandDescription%></textarea>
+        </div>
+        <div class="">
+            <button type="submit" class="btn btn-primary mt-5">Save</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</section>
+ <%- include ('./partials/Footer') -%> 

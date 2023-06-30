@@ -2,8 +2,8 @@ const mongoose =require('mongoose')
 const collection = require('../models/userData')
 const Product = require('../models/productModel')
 const cart=require('../models/cartModel')
-const address=require('../models/Address')
 const useraddress = require('../models/Address')
+const couponModel=require('../models/couponModel')
 
 const cartController={
     cart: async (req,res)=>{
@@ -11,12 +11,15 @@ const cartController={
         const user = req.session.user_id
         const userdetails = await collection.findOne({_id:user})
         const cartdetails= await cart.findOne({userid:user}).populate("products.productid").populate("userid").exec()
-            // const user=await collection.findOne({email: userid.name})
-            // console.log(user);
-            // const cartData= await cart.findOne({userid: }).populate("products.productid")
-            res.render('cart',{cart:cartdetails, userdata: userdetails, title:user})
+      
+            res.render('cart',{
+                cart:cartdetails,
+                userdata: userdetails, 
+                title:user,
+                })
         }catch(error){
-            console.log(error.message);
+            res.render("error",{error:error.message});
+
         }
     },
 
@@ -69,7 +72,8 @@ const cartController={
                 res.redirect(req.get("referer"));
             }
         } catch (error) {
-            console.log(error.message);
+            res.render("error",{error:error.message});
+
         };
     },
 
@@ -88,7 +92,8 @@ const cartController={
 
 
         }catch(error){
-            console.log(error.message);
+            res.render("error",{error:error.message});
+
         }
     },
     increment_product:async(req,res)=>{
@@ -112,7 +117,8 @@ const cartController={
                 res.send({message:"0"})
             }
         }catch(error){
-            console.log(error.message);
+            res.render("error",{error:error.message});
+
         }
     },
 
@@ -138,7 +144,8 @@ const cartController={
             }
 
         }catch(error){
-            console.log(error.message);
+            res.render("error",{error:error.message});
+
         }
     },
 
@@ -147,11 +154,46 @@ const cartController={
             const userid = req.session.user_id
             const userAddress=await useraddress.find({userid:req.session.user_id}).populate("userid")
             const userdetails= await cart.findOne({userid:userid}).populate("products.productid").populate("userid").exec()
-            res.render('checkout',{useraddress:userAddress,cart:userdetails})
+            const coupon = await couponModel.find({});   
+            res.render('checkout',{
+                useraddress:userAddress,
+                cart:userdetails,
+                coupons: coupon,
+                title: userid
+            })
         }
         catch(error){
-            console.log(error.message);
+            res.render("error",{error:error.message});
+
         }
+    },
+    validCoupon:async(req,res)=>{
+        try {
+        let couponCode = req.body.code;
+        let user = req.session.user_id;
+        let orderAmount = req.body.amount;
+        const coupon = await couponModel.findOne({ couponCode: couponCode });
+        if (coupon) {
+          if (!coupon.usedUsers.includes(user)) {
+            if (orderAmount >= coupon.minimumAmount) {
+                coupon.usedUsers.push(user);
+                console.log(coupon.usedUsers);
+              res.send({ msg: "1", discount: coupon.couponAmount });
+            } else {
+              res.send({
+                msg: "2",
+                message: "Coupon is not applicable for this price",
+              });
+            }
+          } else {
+            res.send({ msg: "2", message: "Coupon already used" });
+          }
+        } else {
+          res.send({ msg: "2", message: "Coupon Code Invalid" });
+        }
+      } catch (error) {
+        res.render("error", { error: error.message });
+      }
     },
 
 }

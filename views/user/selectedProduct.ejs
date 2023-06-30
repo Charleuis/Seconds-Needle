@@ -67,7 +67,7 @@
                             </div><!-- End .product-content -->
 
                             
-                            <div class="details-filter-row details-row-size">
+                            <!-- <div class="details-filter-row details-row-size">
                                 <label for="size">Size:</label>
                                 <div class="select-custom">
                                     <select name="size" id="size" class="form-control">
@@ -76,21 +76,22 @@
                                         <option value="m">40 mm</option>
                                         <option value="l">42 mm</option>
                                         <option value="xl">45 mm</option>
-                                    </select>
-                                </div><!-- End .select-custom -->
+                                    </select> -->
+                               <!-- </div> End .select-custom -->
 
-                                <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
-                            </div><!-- End .details-filter-row -->
+                               <!-- <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
+                            </div> End .details-filter-row -->
 
                             <div class="details-filter-row details-row-size">
-                                <label for="qty">Qty:</label>
+                                <label for="for">For :</label>
                                 <div class="product-details-quantity">
-                                    <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                    <label><%=product.Gender  %></label>
                                 </div><!-- End .product-details-quantity -->
                             </div><!-- End .details-filter-row -->
 
                             <div class="product-details-action">
                                 <a href="/cartadd?id=<%=product._id%>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                
 
                                 <div class="details-action-wrapper">
                                     <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
