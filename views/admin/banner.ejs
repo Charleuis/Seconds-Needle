@@ -76,6 +76,15 @@
                             <input type="text" placeholder="Type here" class="form-control" name="name" id="product_name" required>
                         </div>
                         <div class="mb-4">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-select">
+                                <%category.forEach(function(Category){%>
+                                    <option> <%=Category.categoryName%> 
+                                    </option>   
+                                <%})%>                                     
+                            </select>
+                        </div>
+                        <div class="mb-4">
                             <label class="form-label">Banner description</label>
                             <textarea placeholder="Type here" class="form-control" name="Description" rows="4"></textarea required>
                         </div>

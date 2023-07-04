@@ -117,8 +117,9 @@ const adminPage = {
             const userid = req.query.id;
             console.log(userid);
             const productdata = await product.findById({_id:userid })
-            console.log(productdata);
-            res.render('editproduct', { productdata: productdata })
+            const categorylist= await Category.find({list:{$ne:1}})
+            const brandlist = await Brand.find({list:{$ne:1}})
+            res.render('editproduct', { productdata: productdata,category:categorylist,activeValue:productdata.category,brand:brandlist,activeBrand:productdata.brand})
         } catch (error) {
                 res.render("error",{error:error.message});
 
@@ -186,6 +187,20 @@ const adminPage = {
             res.render("error",{error:error.message});
 
         }
+    },
+
+    deleteimage:async(req,res)=>{
+        try{
+            const id=req.body.proID 
+            const prodetails= await product.findOne({productimage:id})
+            await product.updateOne(
+                { productname: prodetails.productname},
+                {$pull: {   productimage: id } }
+                ) 
+                res.status(200).json({message:"1"})
+        }catch(error){ 
+            res.status(404).render('error',{error:error.message})        } 
+    //    res.redirect('/admin/updateproduct')
     },
 
     category: async (req, res) => {
@@ -274,7 +289,7 @@ const adminPage = {
         }
 
         } catch (error) {
-                        res.render("error",{error:error.message});
+            res.render("error",{error:error.message});
 
         }
     },
@@ -295,7 +310,7 @@ const adminPage = {
             res.status(200).redirect('/admin/brands')
 
         } catch (error) {
-                        res.render("error",{error:error.message});
+            res.render("error",{error:error.message});
 
         }
     },
@@ -358,7 +373,8 @@ const adminPage = {
     bannerPage: async(req,res)=>{
         try {
             const banner = await Banner.find({});
-            res.render('banner',{banner})
+            const category = await Category.find({})
+            res.render('banner',{banner,category})
         } catch (error) {
             res.render("error",{error:error.message});
         }
@@ -380,7 +396,7 @@ const adminPage = {
                 }
           
                 const filename = req.file.filename;
-          
+                const offerPage = req.body.category
                 
                     const {Description} = req.body
                             
@@ -388,6 +404,7 @@ const adminPage = {
                         const newBanner = new Banner({
                         title: name,
                         image :filename ,
+                        link : offerPage,
                         description: Description,
                            })
                         const banner = await newBanner.save()

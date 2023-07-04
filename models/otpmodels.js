@@ -12,7 +12,7 @@ const otpschema= new Schema({
     createdAt:{
         type:Date,
         default:Date.now,
-        index:{expires:180},
+        index: { expires: 30 },
     }
 });
 

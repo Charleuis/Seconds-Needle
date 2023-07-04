@@ -23,8 +23,14 @@
                                     <input type="text" placeholder="" class="form-control" name="productname" id="product_name" value="<%=productdata.productname%>">
                                 </div>
                                 <div class="mb-4">
-                                    <label for="product_name" class="form-label">Brand</label>
-                                    <input type="text" placeholder="" class="form-control" name="brand" id="product_name" value="<%=productdata.brand%>">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" name="categoryname">
+                                        <%brand.forEach(function(brand){%>
+                                            <option  value="<%= brand.brandName %>" <% if (brand.brandName === activeBrand) { %>selected<% } %>> 
+                                            <%=brand.brandName%>
+                                            </option>
+                                        <%})%>
+                                        </select>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -55,30 +61,49 @@
                         <div class="card-header">
                             <h4>Photos</h4>
                         </div>
-                        <div class="card-body">
-                            <div class="input-upload">
-                                <% for(let i=0;i<4;i++){ %>
-                                <img src="/upload/<%=productdata.productimage[i] %>" alt="">
-                                <% } %>
-                                <input class="form-control" type="file" name="productimage" multiple>
-                            </div>
-                        </div>
+                        <div class="input-upload">
+                                
+                            <% for(let i=0;i<productdata.productimage.length;i++){ %>
+                             
+                             <a    data-proid=<%=productdata.productimage[i] %> ><img src="upload/<%=productdata.productimage[i] %>" alt="">  </a>
+                             <% if(productdata.productimage[i]) {%>
+                                     <input  type="button" value="Delete" data-proid=<%=productdata.productimage[i] %>   class="buttonid btn btn-primary-2"></input>
+                                 <% } %>
+                             <% } %>
+
+                             <input class="form-control" type="file" name="productimage" multiple>
+                             <!-- <div>
+                                 <input type="file" id="image-input" multiple>
+                                 <img id="preview-image" src="#" alt="Preview Image"> //pending image crop (above input remove cheyth ith use cheyanam)
+                             </div> -->
+                             
+                         </div>
+
                     </div> <!-- card end// -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4>Organization</h4>
+                            <h4>Type / For</h4>
                         </div>
                         <div class="card-body">
                             <div class="row gx-2">
-                                <div class="col-sm-12 mb-3">
+                                <div class="col-sm-6 mb-3">
                                     <label class="form-label">Category</label>
-                                    <select class="form-select" name="category">
-                                        
-                                            <option value="">
-                                                <%= productdata.category %>
+                                    <select class="form-select" name="categoryname">
+                                        <%category.forEach(function(category){%>
+                                            <option  value="<%= category.categoryName %>" <% if (category.categoryName === activeValue) { %>selected<% } %>> 
+                                            <%=category.categoryName%>
                                             </option>
+                                        <%})%>
+                                        </select>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Gender</label>
+                                    <select name="gender" class="form-select">
+                                        <option>Men</option>
+                                        <option>Women</option>
+                                        <option>Kids</option>
                                     </select>
-                                </div>                                
+                                    </div>                                
                             </div> <!-- row.// -->
                         </div>
                     </div> <!-- card end// -->
@@ -87,3 +112,36 @@
         </form>
         </section> <!-- content-main end// -->
         <%- include ('./partials/footer') -%>
+
+        <script>
+      
+            $(document).ready(function(){
+
+
+            $('.buttonid').on('click', function(){
+            console.log("clicked");
+            var proID = $(this).data('proid')
+            console.log(proID);
+            data={
+                proID:proID
+            }
+            
+            //with incrementing the quatity number ajax call
+            $.ajax({
+                url:'/admin/deleteimage',
+                method:"post",
+                data:data,
+                success: function(response){
+                console.log(response.message,"ajax calling");
+                if(response.message == "1"){
+            
+                    location.reload()
+                }
+                }
+            })
+
+            });
+
+                    });
+
+        </script>

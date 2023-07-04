@@ -9,6 +9,10 @@ const bannerSchema= new banner.Schema({
         type: Array,
         required: true,
     },
+    link:{
+        type:String,
+        required: true,
+    },
     description:{
         type: String,
         required: true

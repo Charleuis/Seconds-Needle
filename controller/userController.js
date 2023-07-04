@@ -19,8 +19,13 @@ const client = require('twilio')(accountSid,authToken);
 
 const userPage = {
     userPage: async (req, res) => {
+        try {
         const banners=await banner.find({})
         res.render('home', { title: req.session.user_id, banner:banners})
+        } catch (error) {
+            res.status(404).render('error',{error:error.message})
+        }
+        
     },
     loginpage: (req, res) => {
         res.render('signin')
@@ -60,7 +65,7 @@ const userPage = {
                 res.redirect('/signin');
             
         } catch (error) {
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
 
     },
@@ -103,7 +108,7 @@ const userPage = {
                 res.render('otpSignUp',{signin_email:req.body.email})
             }
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -127,7 +132,7 @@ const userPage = {
                 res.render('otpSignUp')
             }
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -156,7 +161,7 @@ const userPage = {
                 res.render("signin", { message: "Username Incorrect" });
             }
         } catch (error) {
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -176,7 +181,7 @@ const userPage = {
                 wallet:wallet})
 
         }catch(error){
-            console.log(error.message);
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -194,7 +199,7 @@ const userPage = {
             req.session.destroy();
             res.redirect('/')
         } catch (error) {
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -202,14 +207,13 @@ const userPage = {
         try{
            res.render('forgetPassword')
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
     forgPassSent: async(req,res)=>{
         try{
             const userData = await collection.findOne({ email: req.body.email });
-            console.log("forget otp");
             if (userData) {
 
                 if (userData.block === 0) {
@@ -252,7 +256,7 @@ const userPage = {
                 res.redirect("/forgetPass");
             }
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -261,7 +265,9 @@ const userPage = {
             const data = req.body.email
             console.log(data);
             const userotp = req.body.otp;
+            console.log(userotp);
             const otpholder = await otp.findOne({ identifier: data });
+            console.log(otpholder);
             if (otpholder) {
                 const validuser = await bcrypt.compare(userotp, otpholder.otp)
                 console.log(validuser);
@@ -270,16 +276,18 @@ const userPage = {
                     await otp.deleteOne({ identifier: data })
                     res.render('confirmPassword',{data:data})
                 } else {
+                    console.log("otp wrong");
                     req.flash("notice", "Your OTP is wrong")
                     res.redirect('/forgetPass')
                 }
             } else {
+                console.log("You Used an expired otp");
                 req.flash("notice", "You Used an expired otp")
                 res.redirect('/forgetPass')
             }
 
         } catch (error) {
-            
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -294,7 +302,7 @@ const userPage = {
               );           
               res.redirect('/signin')
         } catch (error) {
-            console.log(error.message);
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -305,7 +313,7 @@ const userPage = {
             const title = req.flash("notice");
             res.render("loginOtp", { notice: title[0] || "" });
         } catch (error) {
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -360,16 +368,124 @@ const userPage = {
             }
         } catch (error) {
             console.log("otp error");
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
+
+    otpresend: async (req, res) => {
+        try {
+          const emailID = req.query.id;
+          console.log(emailID);
+          const userdata = await collection.findOne({ email: emailID });
+          if (userdata) {
+            if (userdata.block === 0) {
+              const existingOTP = await otp.findOne({ identifier: emailID });
+              // If there is an existing OTP, update it and resend
+              if (existingOTP) {
+                const OTP = otpgenerator.generate(4, {
+                  digits: true,
+                  alphabets: false,
+                  upperCaseAlphabets: false,
+                  lowerCaseAlphabets: false,
+                  specialChars: false,
+                });
+                console.log(OTP);
+                const salt = await bcrypt.genSalt(10);
+                existingOTP.otp = await bcrypt.hash(OTP, salt);
+                await existingOTP.save();
+                console.log("otp existing"+OTP);
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: "charleslouis1234@gmail.com",
+                        pass: "luvadkrlcnvxzodx",
+                    },
+                });
+                var mailOptions = {
+                    from: "charleslouis1234@gmail.com",
+                    to: userdata.email,
+                    subject: "Sample OTP Verification",
+                    text:
+                        "Hi" +
+                        userdata.name +
+                        ",\n Welcome to Seconds Needle the first online watch shop.\n Enter the OTP to Change password " + OTP,
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                  if (error) {
+                    // Handle error sending email
+                  } else {
+                    // Email sent successfully
+                    console.log("OTP email sent");
+                  }
+                });
+    
+                console.log("here its logging to forgetPassOtp");
+    
+                res.status(200).render("forgetPassOtp", { data: emailID });
+              } else {
+                // Generate a new OTP and save it
+                const OTP = otpgenerator.generate(4, {
+                  digits: true,
+                  alphabets: false,
+                  upperCaseAlphabets: false,
+                  lowerCaseAlphabets: false,
+                  specialChars: false,
+                });
+    
+                console.log("otp existing"+OTP);
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: "charleslouis1234@gmail.com",
+                        pass: "luvadkrlcnvxzodx",
+                    },
+                });
+                var mailOptions = {
+                    from: "charleslouis1234@gmail.com",
+                    to: userdata.email,
+                    subject: "Sample OTP Verification",
+                    text:
+                        "Hi" +
+                        userdata.name +
+                        ",\n Welcome to Seconds Needle the first online watch shop.\n Enter the OTP to change password " + OTP,
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                  if (error) {
+                    res.status(500).send({ success: false, msg: error.message });
+                  } else {
+                    // Email sent successfully
+                    console.log("OTP email sent");
+                  }
+                });
+    
+                console.log(OTP);
+    
+                const newOtp = new otp({ email: req.body.email, otp: OTP });
+                const salt = await bcrypt.genSalt(10);
+                newOtp.otp = await bcrypt.hash(newOtp.otp, salt);
+                const result = await newOtp.save();
+    
+                res.status(200).render("forgetPassOtp", { data: emailID });
+              }
+            } else {
+              req.flash("notice", "user Blocked");
+              res.status(200).redirect("/forgetPass");
+            }
+          } else {
+            req.flash("notice", "user not found");
+            res.status(200).redirect("/forgetPass");
+          }
+        } catch (error) {
+          res.status(404).render("error", { error: error.message });
+        }
+      },
 
     //------- if otp is wrong pop up message sending to pop up code
 
     otpVerify: async (req, res) => {
         try {
             const data = req.body.userDetails
-            console.log(data);
+            const userid = await collection.findOne({ $or: [{ email: data }, { phone: data }] });
             const userotp = req.body.otp;
             const otpholder = await otp.findOne({ identifier: data });
             console.log(otpholder);
@@ -377,7 +493,7 @@ const userPage = {
                 const validuser = await bcrypt.compare(userotp, otpholder.otp)
                 console.log(validuser);
                 if (validuser) {
-                    req.session.user_id = req.body.userDetails;
+                    req.session.user_id = userid._id;
                     await otp.deleteOne({ identifier: data })
                     res.redirect('/')
                 } else {
@@ -398,7 +514,7 @@ const userPage = {
         try{
             res.render('phoneotp')
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -458,7 +574,7 @@ const userPage = {
             const productdetails = await Product.find({isActive:"Yes"})
             res.render('products', { product: productdetails, title:req.session.user_id  })
         } catch (error) {
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -467,7 +583,7 @@ const userPage = {
             const product = await Product.findById(req.query.id);//-----------------------------
             res.render('selectedProduct',{ product: product, title: req.session.user_id })//----------------------------------
         } catch (error) {
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -476,7 +592,7 @@ const userPage = {
             const userid = req.session.user_id;
             res.render('address',{session:userid,title:userid})
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -499,7 +615,7 @@ const userPage = {
               res.redirect("/checkout");  
              
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -509,7 +625,7 @@ const userPage = {
             res.render("editAddress",{useraddress:userAddress})
         }
         catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -532,7 +648,7 @@ const userPage = {
                     );
                 res.redirect('/userdash')
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -542,7 +658,7 @@ const userPage = {
             res.redirect("/userdash")
 
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -550,7 +666,7 @@ const userPage = {
         try{
             res.render('orderStatus')
         }catch(error){
-            res.render("error",{error:error.message});
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -564,7 +680,7 @@ const userPage = {
 
 
         }catch(error){
-        console.log(error.message);
+            res.status(404).render('error',{error:error.message})
         }
     },
 
@@ -652,7 +768,7 @@ const userPage = {
             res.send({ message: "0" });
           }
         } catch (error) {
-          res.render("error", { error: error.message });
+            res.status(404).render('error',{error:error.message})
         }
       },
     
@@ -694,31 +810,43 @@ const userPage = {
             const productdetails = await Product.find({isActive:"Yes",Gender:"Women"})
             res.render('products', { product: productdetails, title:req.session.user_id  })
         } catch (error) {
-            console.log(error.message);
+            res.status(404).render('error',{error:error.message})
         }
     },
+
     kidsWearPage:async(req,res)=>{
         try {
             const productdetails = await Product.find({isActive:"Yes",Gender:"Kids"})
             res.render('products', { product: productdetails, title:req.session.user_id  })
         } catch (error) {
-            console.log(error.message);
+            res.status(404).render('error',{error:error.message})
         }
     },
+
     menWearPage:async(req,res)=>{
         try {
             const productdetails = await Product.find({isActive:"Yes",Gender:"Men"})
             res.render('products', { product: productdetails, title:req.session.user_id  })
         } catch (error) {
-            console.log(error.message);
+            res.status(404).render('error',{error:error.message})
         }
     },
+
     smartWearPage:async(req,res)=>{
         try {
             const productdetails = await Product.find({isActive:"Yes",category:"Smart Watch"})
             res.render('products', { product: productdetails, title:req.session.user_id  })
         } catch (error) {
-            console.log(error.message);
+            res.status(404).render('error',{error:error.message})
+        }
+    },
+
+    bannerlink: async(req,res)=>{
+        try {
+            const bannerpage =await Product.find({isActive:"Yes",category:req.query.offerpage})
+            res.render('products', { product: bannerpage, title:req.session.user_id  })
+        } catch (error) {
+            res.status(404).render('error',{error:error.message})
         }
     },
 }
