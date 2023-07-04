@@ -24,6 +24,7 @@ const cartController={
     },
 
     cartAdd : async (req, res) => {
+        const quickbuy =req.query.name
         try {
             let flag = 0;
             const proId = req.query.id;
@@ -44,11 +45,14 @@ const cartController={
                     );
 
                     if (proExist !== -1) {
-                            flag = 1;
-                            req.flash("title", "Already Added");
-                            res.redirect(req.get("referer"));
-                        
-                    } else {
+                        flag = 1;
+                        req.flash("title", "Already Added");
+                        console.log("here what it comes");
+                        if (quickbuy === "quickbuy") {
+                          return res.redirect('/cart');
+                        }
+                        return res.redirect(req.get("referer"));
+                    }else {
                         await cart.findOneAndUpdate(
                             { userid:userid },
                             { $push: { products: { productid: proId, quantity: 1 } } },
@@ -61,12 +65,20 @@ const cartController={
                         userid: userid,
                         products: [{ productid: proId, quantity: 1 }],
                     });
+                    console.log("here is i am");
                     await newCart.save();
                 }
 
                 if (flag === 0) {
-                    res.redirect("back");
-                } 
+                    if (quickbuy === "quickbuy") {
+                        console.log("buynow works");
+                      res.redirect("/cart");
+                    } else {
+                        console.log("add to cart working");
+                      res.redirect("back");
+                    }
+                  }
+                  
             }else {
                 req.flash("title", "Quantity Exceeds");
                 res.redirect(req.get("referer"));

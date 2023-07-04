@@ -90,11 +90,11 @@
                             </div><!-- End .details-filter-row -->
 
                             <div class="product-details-action">
-                                <a href="/cartadd?id=<%=product._id%>" class="btn-product btn-cart"><span>add to cart</span></a>
-                                
-
+                                <div>
+                                    <a href="/cartadd?id=<%=product._id%>&name=<%="cart"%>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div>
                                 <div class="details-action-wrapper">
-                                    <a href="/cart" class="btn-product " title="Wishlist"><span>Buy Now</span></a>
+                                    <a href="/quickbuy?id=<%=product._id%>&name=<%="quickbuy"%>" class="btn-product" name="buynow" title="Wishlist"><span>Buy Now</span></a>
                                 </div><!-- End .details-action-wrapper -->
                             </div><!-- End .product-details-action -->
 

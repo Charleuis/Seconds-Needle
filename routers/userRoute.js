@@ -89,6 +89,7 @@ user_route.get('/singleProduct',userController.selectedProduct)
 //cart items
 user_route.get('/cart',Authentication.signinLogin,Authentication.isBlocked,cartController.cart)
 user_route.get('/cartadd',Authentication.signinLogin,Authentication.isBlocked,cartController.cartAdd)
+user_route.get('/quickbuy',Authentication.signinLogin,Authentication.isBlocked,cartController.cartAdd)
 user_route.get('/deleteCartItem',cartController.deleteItem)
 user_route.post('/incrementproduct',cartController.increment_product)
 user_route.post('/decrement',cartController.decrement_product)

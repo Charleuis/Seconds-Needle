@@ -89,7 +89,7 @@ admin_route.post('/updateCoupon',auth.isLogin,adminController.updateCoupon)
 admin_route.get('/deleteCoupon',auth.isLogin,adminController.deleteCoupon)
 
 //sales report
-admin_route.get('/salesReport',auth.isLogin,adminController.salesReport)
+admin_route.get('/salesReport',adminController.salesReport)
 
 //banner management
 admin_route.post('/addbanner',adminController.add_banner);
