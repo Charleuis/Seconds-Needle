@@ -43,7 +43,7 @@ admin_route.post('/home',auth.isLogout,adminController.adminHome)
 admin_route.get('/users',auth.isLogin,adminController.userList)
 admin_route.get('/category',auth.isLogin,adminController.category)
 admin_route.get("/brands",auth.isLogin,adminController.Brand)
-admin_route.get('/productlist',auth.isLogin,adminController.productList)
+admin_route.get('/productlist',adminController.productList)
 admin_route.get('/logout',auth.isLogin,adminController.logOut)
 admin_route.get('/banner',adminController.bannerPage)
 
@@ -52,12 +52,12 @@ admin_route.post("/block-user",auth.isLogin,adminController.block_user)
 admin_route.post("/unblock-user",auth.isLogin,adminController.unblock_user)
 
 //product section
-admin_route.get('/product',auth.isLogin,adminController.adminProduct)
-admin_route.post('/addproduct',auth.isLogin,upload.array('productimage'),adminController.addingproduct)
-admin_route.get('/editproduct',auth.isLogin,adminController.editProdut)
-admin_route.get('/deleteproduct',auth.isLogin,adminController.deleteProduct)
-admin_route.post('/deleteimage',auth.isLogin,adminController.deleteimage)
-admin_route.post('/updateproduct',auth.isLogin,upload.array('productimage'),adminController.updateProduct)
+admin_route.get('/product',adminController.adminProduct)
+admin_route.post('/addproduct',upload.array('productimage'),adminController.addingproduct)
+admin_route.get('/editproduct',adminController.editProdut)
+admin_route.get('/deleteproduct',adminController.deleteProduct)
+admin_route.post('/deleteimage',adminController.deleteimage)
+admin_route.post('/updateproduct',upload.array('productimage'),adminController.updateProduct)
 
 //category section
 admin_route.post('/addcategory',auth.isLogin,adminController.addCategory)

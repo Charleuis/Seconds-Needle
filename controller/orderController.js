@@ -14,8 +14,7 @@ const razorpayInstance = new Razorpay({
 const order = {
   placeOrder: async (req, res) => {
     try {
-      let flag = 0,
-        stockOut = [];
+      
       const address = req.body.address;
       const total = req.body.total;
       const payment = req.body.paymentmethod
@@ -23,10 +22,7 @@ const order = {
       const coupon = req.body.coupon
       const couponAmount = req.body.discount
 
-      // console.log(user);
-      // console.log(address);
-      // console.log(total); 
-      // console.log(payment);
+ 
       let paymentStatus;
 
       if (payment === "Razorpay") {
@@ -34,20 +30,11 @@ const order = {
       } else {
         paymentStatus = "Unpaid";
       }
-
+      let flag = await checkStock(user);
       const Cart = await cart
         .findOne({ userid: user })
         .populate("products.productid");
 
-      Cart.products.forEach(async (product) => {
-
-        const pro = await Product.findOne({ _id: product.productid });
-
-        if (product.Cartquantity > pro.quantity) {
-          flag = 1;
-          stockOut.push({ name: pro.name, available: pro.quantity });
-        }
-      });
 
       if (flag == 0) {
         const orderdetail = new Order({
@@ -66,10 +53,6 @@ const order = {
           let productid = product.productid;
           let price = product.productid.price
 
-          // console.log("qty" + quantity);
-          // console.log("id" + productid);
-          // console.log("proPrice" + price);
-
           orderdetail.products.push({ productid, quantity, price });
 
           await Product.updateOne(
@@ -82,7 +65,6 @@ const order = {
         const orderplaceid = orderplaced._id
         await cart.findOneAndDelete({ userid: user }).exec();
 
-        // res.render('home')
         res.send({ message: "1", orderplaceid });
       } else {
         res.send({ message: "0" });
