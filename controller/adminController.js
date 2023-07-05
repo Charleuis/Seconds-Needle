@@ -36,7 +36,7 @@ const adminPage = {
             const ordercount = await Order.find({}).count()
             const productcount = await product.find({}).count()
             const categorycount = await Category.find({}).count()
-            if (req.body.email == admin.email && req.body.password === admin.password) {
+            if (req.body.email == admin.email && req.body.password === admin.password) {q
                 req.session.admin_id=req.body.email
                 res.render('adminhome',{revenue:TotalSales,order:ordercount,product:productcount,category:categorycount})
             } else {
