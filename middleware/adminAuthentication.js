@@ -1,7 +1,7 @@
 const adminAuth = {
     isLogout: (req, res, next) => {
       try {
-        if (req.session.adminid) {
+        if (req.session.admin_id) {
           res.status(200).redirect("/admin/home");
         } else {
           next();
@@ -13,7 +13,7 @@ const adminAuth = {
   
     isLogin: async (req, res, next) => {
       try {
-        if (req.session.adminid) {
+        if (req.session.admin_id) {
           next();
         } else {
           res.status(200).redirect("/admin");

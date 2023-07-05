@@ -4,9 +4,13 @@ const app = express();
 const PORT = process.env.PORT || 7800
 const path = require('path')
 const mongoose = require('mongoose')
+const mongodb=require('mongodb')
 
 //mongodb connection
-mongoose.connect(process.env.dbconnect)
+mongoose.connect(process.env.dbconnect,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+})
     .then(() => {
         console.log('mongodb Connected');
     }).catch(() => {

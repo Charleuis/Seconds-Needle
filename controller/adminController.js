@@ -29,22 +29,23 @@ const adminPage = {
         try {
             const user = await collection.find({ admin: 0 })
             const admin = await collection.findOne({ admin: 1 })
-            const details= await Order.aggregate([
-                {$match: {status: "Delivered"}},{$group: {_id: null,totalSales: { $sum: "$totalAmount" }}}])
+            // const details= await Order.aggregate([
+            //     {$match: {status: "Delivered"}},{$group: {_id: null,totalSales: { $sum: "$totalAmount" }}}])
               
-            const TotalSales = details[0].totalSales;
+            // const TotalSales = details[0].totalSales;
             const ordercount = await Order.find({}).count()
             const productcount = await product.find({}).count()
             const categorycount = await Category.find({}).count()
+            console.log("hiiiiiiiiiiiiiiiiii");
             if (req.body.email == admin.email && req.body.password === admin.password) {
                 req.session.admin_id=req.body.email
-                res.render('adminhome',{revenue:TotalSales,order:ordercount,product:productcount,category:categorycount})
+                res.render('adminhome',{order:ordercount,product:productcount,category:categorycount})//revenue:TotalSales,
             } else {
                 res.render('adminlogin', { message: "Incorect Password" })
             }
         } catch (error) {
                         res.render("error",{error:error.message});
-
+ 
         }
     },
     
@@ -140,7 +141,7 @@ const adminPage = {
                 }
                 dataobj={
                     productname: req.body.productname,
-                    category: req.body.category,
+                    category: req.body.categoryname,
                     brand: req.body.brand,
                     quantity: req.body.quantity,
                     Gender:req.body.gender,
@@ -151,7 +152,7 @@ const adminPage = {
             }else{
                 dataobj = {
                     productname: req.body.productname,
-                    category: req.body.category,
+                    category: req.body.categoryname,
                     brand: req.body.brand,
                     quantity: req.body.quantity,
                     Gender:req.body.gender,

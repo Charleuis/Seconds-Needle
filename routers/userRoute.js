@@ -3,23 +3,21 @@ const user_route =express();
 const path=require('path')
 const flash=require('connect-flash')
 const session=require('express-session')
+const {v4:uuidv4}=require('uuid')
+const nocache=require('nocache')
 const Authentication=require('../middleware/userAuthentication')
 const userController=require('../controller/userController');
 const cartController = require('../controller/cartController');
 const orderController = require('../controller/orderController')
-const Mongostore = require('connect-mongo')
 
-user_route.use(
-    session({
-      secret: "fiwafhiwfwhvuwvu9hvvvwv",
-      resave: false,
-      saveUninitialized: true,
-      cookie: { maxAge: 43200000 },
-      store: Mongostore.create({
-        mongoUrl: process.env.dbconnect,
-      }),
-    })
-  );
+user_route.use(session({
+  secret:uuidv4(),
+  resave:false,
+  saveUninitialized:true
+}));
+
+user_route.use(nocache())
+
 
 //static files like photos storing
 user_route.use(express.static('./public'))
@@ -48,7 +46,7 @@ user_route.get('/logout',userController.logout)
 // dashboard settings
 user_route.get('/userdash',Authentication.isLogin,Authentication.isBlocked,userController.userDash) // inside itself wallet
 user_route.get('/orderstatus',Authentication.isLogin,Authentication.isBlocked,userController.orderStatus)
-user_route.get('/orderDetail',userController.productOrderDetail)
+user_route.get('/orderDetail',Authentication.isLogin,Authentication.isBlocked,userController.productOrderDetail)
 
 //address settings
 user_route.get('/addAddress',Authentication.isLogin,Authentication.isBlocked,userController.addAddress)
@@ -59,10 +57,10 @@ user_route.post('/updateAddress',Authentication.isLogin,Authentication.isBlocked
 
 //after placing order
 user_route.post('/placeOrder',Authentication.isLogin,Authentication.isBlocked,orderController.placeOrder)
-user_route.post('/razorpay',orderController.createOrder)
-user_route.get('/sucess',orderController.sucessPage)
-user_route.post('/cancel',userController.orderCancel)
-user_route.post('/returnorder',orderController.returnrequest)
+user_route.post('/razorpay',Authentication.isLogin,Authentication.isBlocked,orderController.createOrder)
+user_route.get('/sucess',Authentication.isLogin,Authentication.isBlocked,orderController.sucessPage)
+user_route.post('/cancel',Authentication.isLogin,Authentication.isBlocked,userController.orderCancel)
+user_route.post('/returnorder',Authentication.isLogin,Authentication.isBlocked,orderController.returnrequest)
 
 //search
 user_route.post('/search',userController.searchData)
@@ -98,7 +96,7 @@ user_route.post('/decrement',cartController.decrement_product)
 user_route.get('/checkout',Authentication.isLogin,Authentication.isBlocked,cartController.checkOut)
 
 //coupon checking
-user_route.post('/checkvalidcoupon',cartController.validCoupon)
+user_route.post('/checkvalidcoupon',Authentication.isLogin,Authentication.isBlocked,cartController.validCoupon)
 
 //category
 user_route.get('/ladiesWear',userController.ladiesWearPage)

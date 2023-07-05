@@ -279,7 +279,7 @@
                             confirmButtonText: "OK",
                         }).then((result) => {
                             if (result.isConfirmed) {
-                            window.location.href = "/admin/orderdetails"; // Redirect to another page
+                                window.location.reload(); // Redirect to another page
                             }
                         });
                     } else {

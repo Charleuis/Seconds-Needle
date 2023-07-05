@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Category</label>
-                                    <select class="form-select" name="categoryname">
+                                    <select class="form-select" name="brand">
                                         <%brand.forEach(function(brand){%>
                                             <option  value="<%= brand.brandName %>" <% if (brand.brandName === activeBrand) { %>selected<% } %>> 
                                             <%=brand.brandName%>
@@ -82,7 +82,7 @@
                     </div> <!-- card end// -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4>Type / For</h4>
+                            <h4>Category and For</h4>
                         </div>
                         <div class="card-body">
                             <div class="row gx-2">
@@ -101,6 +101,8 @@
                                     <select name="gender" class="form-select">
                                         <option>Men</option>
                                         <option>Women</option>
+                                        <option>Unisex</option>
+                                        <option>Couple</option>
                                         <option>Kids</option>
                                     </select>
                                     </div>                                
