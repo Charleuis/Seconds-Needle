@@ -36,7 +36,7 @@ const adminPage = {
             const ordercount = await Order.find({}).count()
             const productcount = await product.find({}).count()
             const categorycount = await Category.find({}).count()
-            if (req.body.email == admin.email && req.body.password === admin.password) {q
+            if (req.body.email == admin.email && req.body.password === admin.password) {
                 req.session.admin_id=req.body.email
                 res.render('adminhome',{revenue:TotalSales,order:ordercount,product:productcount,category:categorycount})
             } else {
@@ -61,6 +61,7 @@ const adminPage = {
             res.render('adminhome',{revenue:TotalSales,order:ordercount,product:productcount,category:categorycount})
 
         }catch (error){
+            console.log(error.message);
                    res.render("error",{error:error.message});
 
        }
@@ -650,7 +651,7 @@ const adminPage = {
       
         } catch (error) {
             res.status(404).render('error',{error:error.message}) 
-        }
+        }
     
     },
 
@@ -686,8 +687,8 @@ const adminPage = {
       
         } catch (error) {
             res.status(404).render('error',{error:error.message}) 
-        }
-          },
+        }
+            },
 
 
 }
