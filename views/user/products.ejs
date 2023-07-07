@@ -2,7 +2,18 @@
         <div class="container">
             <div class="toolbox toolbox-filter">
                 <div class="toolbox-left">
-                    <a href="#" class="filter-toggler">Filters</a>
+                    <div class="toolbox-left">
+                        <div class="toolbox-sort">
+                            <label for="sortby">Sort by:</label>
+                            <div class="select-custom">
+                                <select name="sortby" id="sortby" class="form-control" onchange="sortProducts()">
+                                    <option selected="selected">Price</option>
+                                    <option >Price Low to High</option>
+                                    <option >Price High to Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
                 </div><!-- End .toolbox-left -->
                 <div class="toolbox-right">
@@ -18,11 +29,11 @@
 
             <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
 
-                    
+            <% if(product.length!=0){%>
                         <div class="row">
-							<% if(product.length!=0){%>
-                            <% product.forEach(function(product) { %>
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+							
+                            <% product.reverse().forEach(function(product) { %>
+                            <div class="product-item col-6 col-md-4 col-lg-4 col-xl-3" data-price="<%= product.price %>">
                                 <div class="product">
                                     <figure class="product-media">
                                         <a href="/singleProduct?id=<%=product._id%>"  class="product-link">
@@ -44,12 +55,7 @@
                                         <div class="product-price">
                                             MRP ₹<%= product.price.toLocaleString('en-IN') %>
                                         </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 3 Reviews )</span>
-                                        </div><!-- End .rating-container -->
+                                        
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->  
@@ -65,27 +71,36 @@
 								  </div>
 								<% } %>
             </div><!-- End .container -->
-    <%- include ('../partials/footer') -%>
 
-<!-- 
-<script src="path/to/jquery.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-        
-        $(".product-link").click(function(e) {
-            e.preventDefault();
-            var productName = $(this).find('.product-title').text();
-            var slug = generateSlug(productName);
 
-            var productURL = $(this).attr('href');
-            productURL += slug;
-            window.location.href = productURL;
-        });
-
-        function generateSlug(text) {
-            return text.toLowerCase().replace(/\s/g, '-');
+    <script>
+        function sortProducts() {
+      const sortSelect = document.getElementById('sortby');
+      const sortValue = sortSelect.value;
+      const productItems = document.querySelectorAll('.product-item');
+    
+      const sortedItems = Array.from(productItems).sort((a, b) => {
+        const priceA = parseFloat(a.dataset.price);
+        const priceB = parseFloat(b.dataset.price);
+    
+        if (sortValue === 'Price Low to High') {
+          return priceA - priceB;
+        } else if (sortValue === 'Price High to Low') {
+          return priceB - priceA;
+        } else {
+          return 0;
         }
-    });
-</script> -->
+      });
+    
+      const parentContainer = productItems[0].parentNode;
+    
+      sortedItems.forEach(item => {
+        parentContainer.appendChild(item);
+      });
+    }
+    
+    </script>
+
+<%- include ('../partials/footer') -%>

@@ -359,7 +359,7 @@ const userPage = {
                     
                     res.render("otp", { data: req.body.email });
                 } else {
-                    req.flash("notice", "User is already exists");
+                    req.flash("notice", "User is Bolcked");
                     res.redirect("/otplog");
                 }
             } else {

@@ -120,7 +120,13 @@ const adminPage = {
             const productdata = await product.findById({_id:userid })
             const categorylist= await Category.find({list:{$ne:1}})
             const brandlist = await Brand.find({list:{$ne:1}})
-            res.render('editproduct', { productdata: productdata,category:categorylist,activeValue:productdata.category,brand:brandlist,activeBrand:productdata.brand})
+            res.render('editproduct', { 
+                productdata: productdata,
+                category:categorylist,
+                activeValue:productdata.category,
+                brand:brandlist,
+                activeBrand:productdata.brand,
+                })
         } catch (error) {
                 res.render("error",{error:error.message});
 
