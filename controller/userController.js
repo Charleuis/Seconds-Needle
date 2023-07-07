@@ -849,6 +849,8 @@ const userPage = {
             res.status(404).render('error',{error:error.message})
         }
     },
+
+    
 }
 
 module.exports = userPage

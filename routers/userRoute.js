@@ -5,6 +5,7 @@ const flash=require('connect-flash')
 const session=require('express-session')
 const {v4:uuidv4}=require('uuid')
 const nocache=require('nocache')
+const adminRouter= require('../routers/adminRoute')
 const Authentication=require('../middleware/userAuthentication')
 const userController=require('../controller/userController');
 const cartController = require('../controller/cartController');
@@ -106,6 +107,20 @@ user_route.get('/smartWatches',userController.smartWearPage)
 
 //banner
 user_route.get('/bannerlink',userController.bannerlink)
+
+user_route.use('/admin', adminRouter);
+user_route.use((req, res, next) => {
+    const error = new Error('Page not found');
+    error.status = 404;
+    next(error);
+  });
+  
+  // Error handling middleware to display the error message
+  user_route.use((error, req, res, next) => {
+    const status = error.status || 500;
+    const message = error.message || 'Something went wrong';
+    res.status(status).render('error', { error: message });
+  });
 
 //exporting file to any place 
 module.exports=user_route
