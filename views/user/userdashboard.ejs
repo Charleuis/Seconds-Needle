@@ -113,7 +113,7 @@
                                                                 <td class="action-col">
                                                                     <% if (order.status === "Delivered") { %>
                                                                         <button class="btn btn-outline-primary return">
-                                                                            <a id="returnorder" data-id="<%= order._id %>">RETURN</a>
+                                                                            <a class="returnorder" data-id="<%= order._id %>">RETURN</a>
                                                                         </button>
                                                                     <% } else if (order.status === "Return") { %>
                                                                         <a class="btn btn-outline-primary-2">Order cancelled</a>
@@ -292,7 +292,6 @@
         <script>
           $(document).ready(function () {
     $(".cancel-order").click(function () {
-        console.log('clicked');
         var orderid = $(this).data("id");
         var data = {
             id: orderid,
@@ -339,11 +338,9 @@
             });
 
             $(document).ready(function () {
-                $("#returnorder").click(function () {
-                    console.log('clicked');
+                $(".returnorder").click(function () {
                     var orderid = $(this).data("id");
                     var data = { id: orderid };
-                    console.log(data);
                     Swal.fire({
                         title: "Are you sure?",
                         text: "This action cannot undone!",

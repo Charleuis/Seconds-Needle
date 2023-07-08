@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
       cb(null, Date.now() + path.extname(file.originalname));
     },
   });
-  const upload = multer({ storage });
+  const upload = multer({storage});
 
 
 
@@ -389,8 +389,6 @@ const adminPage = {
 
     add_banner :async(req,res)=>{
         try {
-            console.log("coming to here");
-            
             upload.single("bannerimage")(req, res, async (err) => {
                 if (err) {
                   console.log(err);
