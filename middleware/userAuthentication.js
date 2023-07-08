@@ -1,5 +1,6 @@
 const user = require("../models/userData")
 const Banner = require('../models/banner')
+const Product = require('../models/productModel')
 const isLogin = async (req, res, next) => {
 
     try {
@@ -7,7 +8,8 @@ const isLogin = async (req, res, next) => {
             next()
         } else {
             const banners = await Banner.find({})
-            res.render('home',{banner:banners})
+            const product= await Product.find({})
+            res.render('home',{banner:banners, product:product})
         }
     } catch (error) {
         console.log(error.message);

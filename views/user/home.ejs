@@ -105,6 +105,43 @@
                 </div><!-- End .col-sm-6 col-lg-3 -->
             </div><!-- End .row -->
         </div><!-- End .container -->
-    </div><!-- End .container -->
-
+        <hr>
+        <div class="container">
+            <div class="heading heading-center mb-3">
+                <% if (product.length != 0) { %>
+                <h2 class="title">Our New Arrivals</h2><!-- End .title -->
+                <div class="row justify-content-center">
+                    <% for (var i = 0; i < 4; i++) { %>
+                    <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                        <div class="product product-11 text-center">
+                            <figure class="product-media">
+                                <span class="product-label label-square label-new">New</span>
+                                <a href="/singleProduct?id=<%= product[i]._id %>">
+                                    <img src="upload/<%= product[i].productimage[2] %>" alt="Product image" class="product-image">
+                                    <img src="upload/<%= product[i].productimage[1] %>" alt="Product image" class="product-image-hover">
+                                </a>
+                            </figure><!-- End .product-media -->
+        
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#"><%= product[i].brand %></a>
+                                </div><!-- End .product-cat -->
+                                <h3 class="product-title"><a href="product.html">2-Seater</a></h3><!-- End .product-title -->
+                                <div class="product-price">
+                                    MRP ₹<%= product[i].price.toLocaleString('en-IN') %>
+                                </div><!-- End .product-price -->
+                            </div><!-- End .product-body -->
+        
+                            <div class="product-action">
+                                <a href="/cartadd?id=<%= product[i]._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                            </div><!-- End .product-action -->
+                        </div><!-- End .product -->
+                    </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                    <% } %>
+                </div><!-- End .row -->
+                <% } %>
+            </div>
+        </div><!-- End .container -->
+        
+</main>
 <%- include ('../partials/footer') -%>

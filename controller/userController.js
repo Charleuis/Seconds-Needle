@@ -21,7 +21,8 @@ const userPage = {
     userPage: async (req, res) => {
         try {
         const banners=await banner.find({})
-        res.render('home', { title: req.session.user_id, banner:banners})
+        const newproduct=await Product.find({})
+        res.render('home', { title: req.session.user_id, banner:banners, product:newproduct})
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }
