@@ -111,7 +111,7 @@
                 <% if (product.length != 0) { %>
                 <h2 class="title">Our New Arrivals</h2><!-- End .title -->
                 <div class="row justify-content-center">
-                    <% for (var i = 0; i < 4; i++) {     %>
+                    <% for (var i = product.length-1; i >product.length-5 ; i--) {     %>
                     <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
                         <div class="product product-11 text-center">
                             <figure class="product-media">
@@ -138,8 +138,17 @@
                             </div><!-- End .product-action -->
                         </div><!-- End .product -->
                     </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-                    <% } %>
+                    <% }%>
+    </div><!-- End .container -->
                 </div><!-- End .row -->
+                <% }else{ %>
+                <div class="container">
+                    <div class="row">
+                      <div class="row justify-content-center">
+                        <h3>No New Products are available</h3>
+                      </div>
+                    </div>
+                  </div>
                 <% } %>
             </div>
         </div><!-- End .container -->
