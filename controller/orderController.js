@@ -14,7 +14,7 @@ const razorpayInstance = new Razorpay({
 const order = {
   placeOrder: async (req, res) => {
     try {
-      
+      console.log(req.body.paymentmethod);
       const address = req.body.address;
       const total = req.body.total;
       const payment = req.body.paymentmethod
@@ -25,7 +25,7 @@ const order = {
  
       let paymentStatus;
 
-      if (payment === "Razorpay") {
+      if (payment === "Razorpay"||payment === "Wallet") {
         paymentStatus = "Paid";
       } else {
         paymentStatus = "Unpaid";
@@ -34,7 +34,6 @@ const order = {
       const Cart = await cart
         .findOne({ userid: user })
         .populate("products.productid");
-
 
       if (flag == 0) {
         const orderdetail = new Order({
@@ -62,6 +61,22 @@ const order = {
         });
 
         const orderplaced = await orderdetail.save();
+        if (payment == "Wallet") {
+          await walletModel.updateOne(
+            { userid:  user},
+            {
+              $inc: { balance: -orderplaced.totalAmount },
+              $push: {
+                orderDetails: {
+                  orderid: orderplaced._id,
+                  amount: orderplaced.totalAmount,
+                  type: "Debited",
+                },
+              },
+            },
+            { new: true }
+          );
+        }
         const orderplaceid = orderplaced._id
         await cart.findOneAndDelete({ userid: user }).exec();
 
@@ -113,7 +128,6 @@ const order = {
               message: true,
             });
             const orderid = req.body.orderid;
-            console.log("here i am right now " + orderid);
             const order_update = Order.findByIdAndUpdate(
               { _id: orderid },
               { $set: { paymentStatus: "Paid" } }
@@ -160,7 +174,6 @@ const order = {
       console.log(orderid);
       let order = await Order.findById(orderid);
       let user= order.userid
-      console.log("here is the userid :"+user);
       const userwallet = await walletModel.findOne({ userid: user });
       if (userwallet) {
         await walletModel.findByIdAndUpdate(

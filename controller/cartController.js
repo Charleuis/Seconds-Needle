@@ -4,6 +4,7 @@ const Product = require('../models/productModel')
 const cart=require('../models/cartModel')
 const useraddress = require('../models/Address')
 const couponModel=require('../models/couponModel')
+const walletModel = require('../models/walletModel')
 
 const cartController={
     cart: async (req,res)=>{
@@ -167,10 +168,12 @@ const cartController={
             const userAddress=await useraddress.find({userid:req.session.user_id}).populate("userid")
             const userdetails= await cart.findOne({userid:userid}).populate("products.productid").populate("userid").exec()
             const coupon = await couponModel.find({});   
+            const wallet = await walletModel.findOne({userid:userid})
             res.render('checkout',{
                 useraddress:userAddress,
                 cart:userdetails,
                 coupons: coupon,
+                wallet:wallet,
                 title: userid
             })
         }

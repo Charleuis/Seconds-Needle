@@ -416,11 +416,9 @@ const userPage = {
                     // Handle error sending email
                   } else {
                     // Email sent successfully
-                    console.log("OTP email sent");
+ 
                   }
                 });
-    
-                console.log("here its logging to forgetPassOtp");
     
                 res.status(200).render("forgetPassOtp", { data: emailID });
               } else {
@@ -433,7 +431,7 @@ const userPage = {
                   specialChars: false,
                 });
     
-                console.log("otp existing"+OTP);
+   
                 const transporter = nodemailer.createTransport({
                     service: "gmail",
                     auth: {
@@ -455,7 +453,7 @@ const userPage = {
                     res.status(500).send({ success: false, msg: error.message });
                   } else {
                     // Email sent successfully
-                    console.log("OTP email sent");
+          
                   }
                 });
     
@@ -489,7 +487,6 @@ const userPage = {
             const userid = await collection.findOne({ $or: [{ email: data }, { phone: data }] });
             const userotp = req.body.otp;
             const otpholder = await otp.findOne({ identifier: data });
-            console.log(otpholder);
             if (otpholder) {
                 const validuser = await bcrypt.compare(userotp, otpholder.otp)
                 console.log(validuser);
@@ -572,17 +569,30 @@ const userPage = {
 
     product: async (req, res) => {
         try {
-            const productdetails = await Product.find({isActive:"Yes"})
-            res.render('products', { product: productdetails, title:req.session.user_id  })
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
+            const productDetails = await Product.find({ isActive: "Yes" })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+            const totalProducts = await Product.countDocuments(productDetails);
+            res.render('products', {
+                product: productDetails,
+                title: req.session.user_id,
+                currentPage: page,
+                totalPages: Math.ceil(totalProducts / productsPerPage)
+            });
         } catch (error) {
-            res.status(404).render('error',{error:error.message})
+            console.log(error.message);
+            res.status(404).render('error', { error: error.message });
         }
+        
     },
 
     selectedProduct: async (req, res) => {
         try {
-            const product = await Product.findById(req.query.id);//-----------------------------
-            res.render('selectedProduct',{ product: product, title: req.session.user_id })//----------------------------------
+            const product = await Product.findById(req.query.id);
+            res.render('selectedProduct',{ product: product, title: req.session.user_id});
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }
@@ -676,7 +686,6 @@ const userPage = {
             const Order= await order.findById({_id:req.query.id})
             .populate("address")
             .populate("products.productid").exec();
-            console.log("This is what i want"+ Order.products);
             res.render('productOrderDetail',{orderDetail:Order })
 
 
@@ -788,28 +797,58 @@ const userPage = {
     // },
 
     searchData:async(req,res)=>{
-        try{
-            const proname=req.body.name
-            let productnamelower= proname.toLowerCase().replace(/\s/g,"");
+        try {
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
+            const proname = req.body.name;
+            const productnamelower = proname.toLowerCase().replace(/\s/g, "");
+            
             const productdetail = await Product.find({
                 isActive: "Yes",
                 $or: [
-                  { productname: { $regex: new RegExp('.*' + productnamelower.toLowerCase() + '.*', 'i') } },
-                  { brand: { $regex: new RegExp('.*' + productnamelower.toLowerCase() + '.*', 'i') } }
+                    { productname: { $regex: new RegExp('.*' + productnamelower + '.*', 'i') } },
+                    { brand: { $regex: new RegExp('.*' + productnamelower + '.*', 'i') } }
                 ]
-              });
-              
-              
-            res.render('products',{product:productdetail})
-        }catch(error){
-            res.status(404).render('error',{error:error.message})
+            })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+        
+            const totalProducts = await Product.countDocuments({
+                isActive: "Yes",
+                $or: [
+                    { productname: { $regex: new RegExp('.*' + productnamelower + '.*', 'i') } },
+                    { brand: { $regex: new RegExp('.*' + productnamelower + '.*', 'i') } }
+                ]
+            });
+        
+            res.render('products', {
+                product: productdetail,
+                title: req.session.user_id,
+                currentPage: page,
+                totalPages: Math.ceil(totalProducts / productsPerPage)
+            });
+        } catch (error) {
+            console.log(error.message);
+            res.status(404).render('error', { error: error.message });
         }
     },
     
     ladiesWearPage:async(req,res)=>{
         try {
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
             const productdetails = await Product.find({isActive:"Yes",Gender:"Women"})
-            res.render('products', { product: productdetails, title:req.session.user_id  })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+            const totalProducts = await Product.countDocuments({isActive:"Yes",Gender:"Women"})
+            res.render('products', { 
+                product: productdetails, 
+                title:req.session.user_id,
+                currentPage: page,
+                totalPages: Math.ceil(totalProducts / productsPerPage)
+            })
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }
@@ -817,8 +856,19 @@ const userPage = {
 
     kidsWearPage:async(req,res)=>{
         try {
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
             const productdetails = await Product.find({isActive:"Yes",Gender:"Kids"})
-            res.render('products', { product: productdetails, title:req.session.user_id  })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+            const totalProducts = await Product.countDocuments({isActive:"Yes",Gender:"Kids"})
+            res.render('products', {
+                product: productdetails,
+                title:req.session.user_id,
+                currentPage: page,
+                totalPages: Math.ceil(totalProducts / productsPerPage)
+            })
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }
@@ -826,8 +876,18 @@ const userPage = {
 
     menWearPage:async(req,res)=>{
         try {
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
             const productdetails = await Product.find({isActive:"Yes",Gender:"Men"})
-            res.render('products', { product: productdetails, title:req.session.user_id  })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+            const totalProducts = await Product.countDocuments({isActive:"Yes",Gender:"Men"})
+            res.render('products', {
+                product: productdetails,
+                title:req.session.user_id,
+                currentPage: page,
+                totalPages: Math.ceil(totalProducts / productsPerPage) })
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }
@@ -835,8 +895,18 @@ const userPage = {
 
     smartWearPage:async(req,res)=>{
         try {
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
             const productdetails = await Product.find({isActive:"Yes",category:"Smart Watch"})
-            res.render('products', { product: productdetails, title:req.session.user_id  })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+            const totalProducts = await Product.countDocuments({isActive:"Yes",category:"Smart Watch"})
+            res.render('products', { 
+            product: productdetails,
+            title:req.session.user_id,
+            currentPage: page,
+            totalPages: Math.ceil(totalProducts / productsPerPage)  })
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }
@@ -844,8 +914,18 @@ const userPage = {
 
     bannerlink: async(req,res)=>{
         try {
+            const productsPerPage = 8;
+            const page = parseInt(req.query.page) || 1;
             const bannerpage =await Product.find({isActive:"Yes",category:req.query.offerpage})
-            res.render('products', { product: bannerpage, title:req.session.user_id  })
+                .skip((page - 1) * productsPerPage)
+                .limit(productsPerPage)
+                .exec();
+            const totalProducts = await Product.countDocuments({isActive:"Yes",category:req.query.offerpage})
+            res.render('products', { 
+            product: bannerpage, 
+            title:req.session.user_id,
+            currentPage: page,
+            totalPages: Math.ceil(totalProducts / productsPerPage)  })
         } catch (error) {
             res.status(404).render('error',{error:error.message})
         }

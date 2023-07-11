@@ -95,10 +95,12 @@
                                     </thead>
                                     
                                     <tbody>
+                                        <% let subtotal; %>
                                         <% cart.products.forEach(function(product) { %>
                                         <tr>
                                             
                                             <td><a href="#"><%= product.productid.productname %></a></td>
+                                            <%subtotal=product.productid.price * product.Cartquantity ;%>
                                             <td class="proprice">₹ <%= product.productid.price * product.Cartquantity %>.00</td>
                                            
                                         </tr>
@@ -107,6 +109,7 @@
                                 </table>
                                 <table class="table table-summary">
                                     <tbody>
+
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
                                             <td id="subtotal"></td>
@@ -117,7 +120,7 @@
                                         </tr>
                                         <tr>
                                             <td>Shipping:</td>
-                                            <td>Free shipping</td>
+                                            <td>Free shipping </td>
                                         </tr>
                                         <tr class="summary-total">
                                             <td>Total:</td>
@@ -155,6 +158,24 @@
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
                                     </div><!-- End .card -->
+                                    <%if(wallet){%>
+                                        <%if(wallet.balance>=subtotal){%>
+                                            <div class="card">
+                                                <div class="card-header" id="heading-5">
+                                                    <h2 class="card-title">
+                                                        <a class="collapsed method" value="Wallet" role="button" data-method="Wallet" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+                                                          Wallet
+                                                        </a>
+                                                    </h2>
+                                                </div><!-- End .card-header -->
+                                                <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
+                                                    <div class="card-body">
+                                                      Available Balance: <span style="color: rgb(13, 194, 13);">₹<%=wallet.balance%>.00</span>
+                                                    </div><!-- End .card-body -->
+                                                </div><!-- End .collapse -->
+                                              </div><!-- End .card -->
+                                        <%}%>
+                                    <%}%>
                                 </div><!-- End .card-header -->
 
                                 <!-- <tr class="summary-shipping-row">
@@ -223,22 +244,22 @@ $(document).ready(function () {
   $("#protable > tbody > tr").each(function() {
     let price = $(this)
       .find(".proprice")
-      .text()
-      .replace(/[^\d\.]/g, "");
-    let total = parseInt(price);
-    subtotal += total;
-  });
+                    .text()
+                    .replace(/[^\d\.]/g, "");
+                    let total = parseInt(price);
+                    subtotal += total;
+                });
 
-  let couponrs = $('#discount')
-    .text()
-    .replace(/[^\d\.]/g, "");
-  couponrs = parseInt(couponrs);
+                let couponrs = $('#discount')
+                    .text()
+                    .replace(/[^\d\.]/g, "");
+                couponrs = parseInt(couponrs);
 
-  let total = subtotal - couponrs;
+                let total = subtotal - couponrs;
 
-  $("#subtotal").text("₹" + subtotal.toFixed(2));
+              let sum=  $("#subtotal").text("₹" + subtotal.toFixed(2));
 
-  $("#finalTotal").text("₹" + total.toFixed(2));
+                $("#finalTotal").text("₹" + total.toFixed(2));
 }
 
 
@@ -363,7 +384,7 @@ $(document).ready(function () {
                             }
                         }
                     });
-                } else {
+                } else{
                     saveOrder();
                 }
                 function saveOrder() {

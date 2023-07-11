@@ -59,6 +59,7 @@
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->  
+                            
                             <% }); %>
 							<% }else{ %>
 								<div class="container">
@@ -71,7 +72,25 @@
 								  </div>
 								<% } %>
             </div><!-- End .container -->
-
+            <div class="pagination justify-content-center">
+              <% if (totalPages > 1) { %>
+                <% if (currentPage > 1) { %>
+                  <a href="/product?page=<%= currentPage - 1 %>" class="page-link page-link-prev"><span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Previous </a>
+                <% } %>
+            
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                  <% if (i === currentPage) { %>
+                    <span class="active page-link"><%= i %></span>
+                  <% } else { %>
+                    <a href="/product?page=<%= i %>" class="page-link"><%= i %></a>
+                  <% } %>
+                <% } %>
+            
+                <% if (currentPage < totalPages) { %>
+                  <a href="/product?page=<%= currentPage + 1 %>" class="page-link page-link-next">Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span></a>
+                <% } %>
+              <% } %>
+            </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 
