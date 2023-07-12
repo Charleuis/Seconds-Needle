@@ -62,8 +62,7 @@ const adminPage = {
             res.render('adminhome',{revenue:TotalSales,order:ordercount,product:productcount,category:categorycount})
 
         }catch (error){
-            console.log(error.message);
-                   res.render("error",{error:error.message});
+            res.render("error",{error:error.message});
 
        }
     },
@@ -117,7 +116,6 @@ const adminPage = {
     editProdut: async (req, res) => {
         try {
             const userid = req.query.id;
-            console.log(userid);
             const productdata = await product.findById({_id:userid })
             const categorylist= await Category.find({list:{$ne:1}})
             const brandlist = await Brand.find({list:{$ne:1}})
@@ -140,11 +138,9 @@ const adminPage = {
             let dataobj;
             const arrImages=[]
             if(req.files.length > 0){
-                console.log("if part");
                 for(let i=0;i<req.files.length;i++){
                     
                     arrImages[i]=req.files[i].filename;
-                    // console.log(i);
                 }
                 dataobj={
                     productname: req.body.productname,
@@ -182,9 +178,7 @@ const adminPage = {
 
     deleteProduct: async(req,res)=>{
         try{
-            console.log("for deleteion comes here");
             const couponid =req.query.id;
-            console.log(couponid);
             await product.findByIdAndUpdate(
                 {_id:couponid},
                 { $set: { isActive:"No" } }
@@ -239,7 +233,6 @@ const adminPage = {
     deletecategory:async(req,res)=>{
         try{
             const categoryId =req.query.id;
-            console.log(categoryId);
             await Category.findByIdAndUpdate(
                 {_id:categoryId},
                 { $set: { list:"1" } }
@@ -254,10 +247,7 @@ const adminPage = {
 
     changeCategoryStatus: async (req, res) => {
         try {
-          console.log(req.body.value);
-    
           const updated = await Category.updateOne({ _id: req.body.id }, { $set: { status: req.body.value } })
-          console.log(updated);
           res.status(201).json({ message: "Status updated" })
         } catch (error) {
                       res.render("error",{error:error.message});
@@ -278,9 +268,7 @@ const adminPage = {
     addCategory: async (req, res) => {
         try {
             const categoryName = req.body.categoryName;
-            console.log(categoryName);
             let categorylower=categoryName.toLowerCase().replace(/\s/g, "");
-            console.log(categorylower);
             const existingCategory =await Category.findOne({categorylower:categorylower})
             if(existingCategory){
                 req.flash("title","Category Already Exist");
@@ -369,7 +357,6 @@ const adminPage = {
     changeBrandStatus:async(req,res)=>{
         try {
             const updated = await Brand.updateOne({ _id: req.body.id }, { $set: { status: req.body.value } })
-            console.log(updated);
             res.status(201).json({ message: "Status updated" })
         } catch (error) {
                 res.render("error",{error:error.message});
@@ -392,7 +379,6 @@ const adminPage = {
         try {
             upload.single("bannerimage")(req, res, async (err) => {
                 if (err) {
-                  console.log(err);
                   req.session.message = {
                     type: "error",
                     message: "Failed to upload profile photo",
@@ -493,7 +479,6 @@ const adminPage = {
       orderDetails:async(req,res)=>{
           try{
               const data =req.query.id
-              console.log(data);
               const order = await Order.findById({_id:req.query.id})
               .populate("userid")
               .populate("products.productid")
@@ -510,7 +495,6 @@ const adminPage = {
         try {
             const orderid = req.body.orderid;
             const status = req.body.status;
-            console.log(orderid);
             if(status){
             if(status=="Delivered"){
 
@@ -622,7 +606,6 @@ const adminPage = {
       deleteCoupon:async(req,res)=>{
         try{
             const couponid =req.query.id;
-            console.log(couponid);
             await couponModel.findByIdAndDelete({_id:couponid})
             res.send({message:"1"})
         }catch(error){
@@ -638,8 +621,7 @@ const adminPage = {
             .exec();
             res.render("salesReport", { orders: order_details });
           } catch (error) {
-            console.log(error.message)
-          //   res.render('error', { error: error.message })
+            res.render('error', { error: error.message })
           }
       
       },

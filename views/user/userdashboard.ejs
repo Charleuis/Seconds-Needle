@@ -113,10 +113,10 @@
                                                                 <td class="action-col">
                                                                     <% if (order.status === "Delivered") { %>
                                                                         <button class="btn btn-outline-primary return">
-                                                                            <a class="returnorder" data-id="<%= order._id %>">RETURN</a>
+                                                                            <a class="returnorder" data-id="<%= order._id %>">Return</a>
                                                                         </button>
                                                                         <% } else if (order.status === "Completed") { %>
-                                                                            <button class="btn btn-info return" disabled>ORDER COMPLETED</button>
+                                                                            <button class="btn btn-outline-primary-1" disabled>Order Completed</button>
                                                                     <% } else if (order.status === "Return") { %>
                                                                         <a class="btn btn-outline-primary-2">Order cancelled</a>
                                                                     <% } else  { %>
