@@ -2,8 +2,8 @@
 
 <main class="main">
     <div class="intro-slider-container mb-4">
-        <% if (banner.length!=0) {%>
-             <div class="intro-slider owl-carousel owl-simple owl-nav-inside" data-toggle="owl" data-owl-options='{
+        <% if (banner.length != 0) { %>
+            <div class="intro-slider owl-carousel owl-simple owl-nav-inside" data-toggle="owl" data-owl-options='{
                 "nav": false, 
                 "dots": true,
                 "responsive": {
@@ -13,214 +13,178 @@
                     }
                 }
             }'>
-            <% banner.forEach(function(bannerItem) { %>
-            <div class="intro-slide" style="background-image: url('bannerimages/<%=bannerItem.image %>');">
-                <div class="container intro-content ">
-                    <h3 class="intro-subtitle text-light"><%= bannerItem.description %></h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-light"><%= bannerItem.title %></h1><!-- End .intro-title -->
-                        <a href="/bannerlink?offerpage=<%=bannerItem.link %>" class="btn btn-outline-primary-2 text-light">
-                        <span>DISCOVER MORE</span>
-                        <i class="icon-long-arrow-right text-white"></i>
-                    </a>
-                    
-                </div><!-- End .intro-content -->
-            </div><!-- End .intro-slide -->
-            <% }); %>
-        </div><!-- End .intro-slider owl-carousel owl-simple -->
-        <span class="slider-loader"></span><!-- End .slider-loader -->
-    </div><!-- End .intro-slider-container -->
-        <% } else{%>
-            <div class="intro-slider-container mb-0">
-            <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light" data-toggle="owl"
-            data-owl-options='{"nav": false, "dots": false}'>
-            <div class="intro-slide" style="background-image: url(/assets/images/figma/blog-banner_1600x.jpeg);">
+                <% banner.forEach(function(bannerItem) { %>
+                    <div class="intro-slide" style="background-image: url('bannerimages/<%= bannerItem.image %>');">
+                        <div class="container intro-content ">
+                            <h3 class="intro-subtitle text-light"><%= bannerItem.description %></h3><!-- End .h3 intro-subtitle -->
+                            <h1 class="intro-title text-light"><%= bannerItem.title %></h1><!-- End .intro-title -->
+                            <a href="/bannerlink?offerpage=<%= bannerItem.link %>" class="btn btn-outline-primary-2 text-light">
+                                <span>DISCOVER MORE</span>
+                                <i class="icon-long-arrow-right text-white"></i>
+                            </a>
+                        </div><!-- End .intro-content -->
+                    </div><!-- End .intro-slide -->
+                <% }); %>
+            </div><!-- End .intro-slider owl-carousel owl-simple -->
+            <span class="slider-loader"></span><!-- End .slider-loader -->
+        <% } else { %>
+            <div class="intro-slide" style="background-image: url('assets/images/demos/demo-6/slider/slide-1.jpg');">
                 <div class="container intro-content text-center">
-                    <h3 class="intro-subtitle text-white">Don’t Miss</h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title text-white">Mystery Deals</h1><!-- End .intro-title -->
-                    <div class="intro-text text-white">Online Only</div><!-- End .intro-text -->
-                    <a href="#" class="btn btn-primary">Discover NOW</a>
+                    <h3 class="intro-subtitle text-white">You're Looking Good</h3><!-- End .h3 intro-subtitle -->
+                    <h1 class="intro-title text-white">New Lookbook</h1><!-- End .intro-title -->
+
+                    <a href="category.html" class="btn btn-outline-white-4">
+                        <span>Discover More</span>
+                    </a>
                 </div><!-- End .intro-content -->
             </div><!-- End .intro-slide -->
-        </div>
-            <% } %>
-       
+        <% } %>
+    </div><!-- End .intro-slider-container -->
 
-    <!-- <div class="container"> -->
-        <!-- <div class="toolbox toolbox-filter"> -->
-            <!-- <div class="toolbox-right"> -->
-                <!-- <ul class="nav-filter product-filter"> -->
-                    <!-- <li class="active"><a href="#" data-filter="*">All</a></li> -->
-                    <!-- <li><a href="#" data-filter=".furniture">Men</a></li> -->
-                    <!-- <li><a href="#" data-filter=".lighting">Women</a></li> -->
-                    <!-- <li><a href="#" data-filter=".accessories">Kids</a></li> -->
-                    <!-- <li><a href="#" data-filter=".sale">Unisex</a></li> -->
-                <!-- </ul> -->
-            <!-- </div>End .toolbox-right -->
-        <!-- </div>End .filter-toolbox -->
-
-
-        
-
-        
-        
-        <div class="container categories pt-6 mb-5" >
+    <div class="container">
+        <div class="categories pt-6 mb-5">
             <h2 class="title-lg text-center mb-4">Shop by Categories</h2><!-- End .title-lg text-center -->
-
             <div class="row">
                 <div class="col-6 col-lg-4">
                     <div class="banner banner-display banner-link-anim">
                         <a href="#">
                             <img src="assets/images/categorie smart3.jpg" alt="Banner">
                         </a>
-
                         <div class="banner-content banner-content-center">
                             <h3 class="banner-title text-white"><a href="#">Kids Wear</a></h3><!-- End .banner-title -->
                             <a href="/kidsWear" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
                         </div><!-- End .banner-content -->
                     </div><!-- End .banner -->
-                </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .col-6 col-lg-4 -->
                 <div class="col-6 col-lg-4 order-lg-last">
                     <div class="banner banner-display banner-link-anim">
                         <a href="#">
                             <img src="assets/images/categorie smart4.jpg" alt="Banner">
                         </a>
-
                         <div class="banner-content banner-content-center">
                             <h3 class="banner-title text-white"><a href="#">Ladies Wear</a></h3><!-- End .banner-title -->
                             <a href="/ladiesWear" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
                         </div><!-- End .banner-content -->
                     </div><!-- End .banner -->
-                </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .col-6 col-lg-4 -->
                 <div class="col-sm-12 col-lg-4 banners-sm">
                     <div class="row">
                         <div class="banner banner-display banner-link-anim col-lg-12 col-6">
                             <a href="#">
                                 <img src="assets/images/categorie smart2.jpg" alt="Banner">
                             </a>
-
                             <div class="banner-content banner-content-center">
                                 <h3 class="banner-title text-white"><a href="#">Mens Wear</a></h3><!-- End .banner-title -->
                                 <a href="/mensWear" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .banner-content -->
                         </div><!-- End .banner -->
-
                         <div class="banner banner-display banner-link-anim col-lg-12 col-6">
                             <a href="#">
                                 <img src="assets/images/categoriesmart1.jpg" alt="Banner">
                             </a>
-                            
                             <div class="banner-content banner-content-center">
                                 <h3 class="banner-title text-white"><a href="#">Smart Watches</a></h3><!-- End .banner-title -->
                                 <a href="/smartWatches" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .banner-content -->
                         </div><!-- End .banner -->
-                    </div>
-                </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .col-sm-12 col-lg-4 -->
             </div><!-- End .row -->
-        </div><!-- End .container -->
+        </div><!-- End .container .categories pt-6 mb-5 -->
         <hr>
         <div class="container">
             <div class="heading heading-center mb-3">
                 <% if (product.length != 0) { %>
-                <h2 class="title">Our New Arrivals</h2><!-- End .title -->
-                <div class="row justify-content-center">
-                    <% for (var i = product.length-1; i >product.length-5 ; i--) {     %>
-                    <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
-                        <div class="product product-11 text-center">
-                            <figure class="product-media">
-                                <span class="product-label label-circle label-new">New</span>
-                                <a href="/singleProduct?id=<%= product[i]._id %>">
-                                    <img src="upload/<%= product[i].productimage[2] %>" alt="Product image" class="product-image">
-                                    <img src="upload/<%= product[i].productimage[1] %>" alt="Product image" class="product-image-hover">
-                                </a>
-                            </figure><!-- End .product-media -->
-        
-                            <div class="product-body">
-                                <div class="product-cat mb-1">
-                                    <a href="#"><%= product[i].brand %></a>
-                                </div><!-- End .product-cat -->
-                                <h3 class="product-title mb-2"><a href="/singleProduct?id=<%=product._id%>"><%=product[i].productname%></a></h3><!-- End .product-title -->
-                                <div class="product-price">
-                                    MRP <strong>₹<%= product[i].price.toLocaleString('en-IN') %></strong>
-                                </div><!-- End .product-price -->
-                                
-                            </div><!-- End .product-body -->
-        
-                            <div class="product-action">
-                                <a href="/cartadd?id=<%= product[i]._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </div><!-- End .product -->
-                    </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-                    <% }%>
-    </div><!-- End .container -->
-                </div><!-- End .row -->
-                <% }else{ %>
-                <div class="container">
-                    <div class="row">
-                      <div class="row justify-content-center">
+                    <h2 class="title">Our New Arrivals</h2><!-- End .title -->
+                    <div class="row justify-content-center">
+                        <% for (var i = product.length - 1; i >= Math.max(product.length - 4, 0); i--) { %>
+                            <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                <div class="product product-11 text-center">
+                                    <figure class="product-media">
+                                        <span class="product-label label-circle label-new">New</span>
+                                        <a href="/singleProduct?id=<%= product[i]._id %>">
+                                            <img src="upload/<%= product[i].productimage[2] %>" alt="Product image" class="product-image">
+                                            <img src="upload/<%= product[i].productimage[1] %>" alt="Product image" class="product-image-hover">
+                                        </a>
+                                    </figure><!-- End .product-media -->
+                                    <div class="product-body">
+                                        <div class="product-cat mb-1">
+                                            <a href="#"><%= product[i].brand %></a>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title mb-2"><a href="/singleProduct?id=<%= product[i]._id %>"><%= product[i].productname %></a></h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            MRP <strong>₹<%= product[i].price.toLocaleString('en-IN') %></strong>
+                                        </div><!-- End .product-price -->
+                                    </div><!-- End .product-body -->
+                                    <div class="product-action">
+                                        <a href="/cartadd?id=<%= product[i]._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-6 col-md-4 col-lg-3 -->
+                        <% } %>
+                    </div><!-- End .row -->
+                <% } else { %>
+                    <div class="row justify-content-center">
                         <h3>No New Products are available</h3>
-                      </div>
                     </div>
-                  </div>
                 <% } %>
-            </div>
+            </div><!-- End .heading heading-center mb-3 -->
         </div><!-- End .container -->
-        
-</main>
-<div class="icon-boxes-container">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-lg-3">
-                <div class="icon-box icon-box-side">
-                    <span class="icon-box-icon text-dark">
-                        <i class="icon-rocket"></i>
-                    </span>
-                    <div class="icon-box-content">
-                        <h3 class="icon-box-title">Free Shipping</h3><!-- End .icon-box-title -->
-                        <p>for Premium customer</p>
-                    </div><!-- End .icon-box-content -->
-                </div><!-- End .icon-box -->
-            </div><!-- End .col-sm-6 col-lg-3 -->
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="icon-box icon-box-side">
-                    <span class="icon-box-icon text-dark">
-                        <i class="icon-rotate-left"></i>
-                    </span>
-
-                    <div class="icon-box-content">
-                        <h3 class="icon-box-title">Free Returns</h3><!-- End .icon-box-title -->
-                        <p>within 30 days</p>
-                    </div><!-- End .icon-box-content -->
-                </div><!-- End .icon-box -->
-            </div><!-- End .col-sm-6 col-lg-3 -->
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="icon-box icon-box-side">
-                    <span class="icon-box-icon text-dark">
-                        <i class="icon-info-circle"></i>
-                    </span>
-
-                    <div class="icon-box-content">
-                        <h3 class="icon-box-title">Get 20% Off 1 Item</h3><!-- End .icon-box-title -->
-                        <p>When you sign up</p>
-                    </div><!-- End .icon-box-content -->
-                </div><!-- End .icon-box -->
-            </div><!-- End .col-sm-6 col-lg-3 -->
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="icon-box icon-box-side">
-                    <span class="icon-box-icon text-dark">
-                        <i class="icon-life-ring"></i>
-                    </span>
-
-                    <div class="icon-box-content">
-                        <h3 class="icon-box-title">We Support</h3><!-- End .icon-box-title -->
-                        <p>24/7 amazing services</p>
-                    </div><!-- End .icon-box-content -->
-                </div><!-- End .icon-box -->
-            </div><!-- End .col-sm-6 col-lg-3 -->
-        </div><!-- End .row -->
     </div><!-- End .container -->
-</div><!-- End .icon-boxes-container -->
+
+    <div class="icon-boxes-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="icon-box icon-box-side">
+                        <span class="icon-box-icon text-dark">
+                            <i class="icon-rocket"></i>
+                        </span>
+                        <div class="icon-box-content">
+                            <h3 class="icon-box-title">Free Shipping</h3><!-- End .icon-box-title -->
+                            <p>for Premium customer</p>
+                        </div><!-- End .icon-box-content -->
+                    </div><!-- End .icon-box -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="icon-box icon-box-side">
+                        <span class="icon-box-icon text-dark">
+                            <i class="icon-rotate-left"></i>
+                        </span>
+                        <div class="icon-box-content">
+                            <h3 class="icon-box-title">Free Returns</h3><!-- End .icon-box-title -->
+                            <p>within 30 days</p>
+                        </div><!-- End .icon-box-content -->
+                    </div><!-- End .icon-box -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="icon-box icon-box-side">
+                        <span class="icon-box-icon text-dark">
+                            <i class="icon-info-circle"></i>
+                        </span>
+                        <div class="icon-box-content">
+                            <h3 class="icon-box-title">Get 20% Off 1 Item</h3><!-- End .icon-box-title -->
+                            <p>When you sign up</p>
+                        </div><!-- End .icon-box-content -->
+                    </div><!-- End .icon-box -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="icon-box icon-box-side">
+                        <span class="icon-box-icon text-dark">
+                            <i class="icon-life-ring"></i>
+                        </span>
+                        <div class="icon-box-content">
+                            <h3 class="icon-box-title">We Support</h3><!-- End .icon-box-title -->
+                            <p>24/7 amazing services</p>
+                        </div><!-- End .icon-box-content -->
+                    </div><!-- End .icon-box -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .icon-boxes-container -->
+</main>
+
 <%- include ('../partials/footer') -%>
