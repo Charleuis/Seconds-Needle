@@ -5,6 +5,7 @@ const Brand = require('../models/brandModel')
 const Order = require('../models/orderModel')
 const couponModel=require('../models/couponModel')
 const Banner = require('../models/banner')
+const moment = require("moment");
 const multer= require("multer")
 const path=require("path")
 
@@ -523,7 +524,24 @@ const adminPage = {
                     { $set: { status: status } }
                   );
             }
-            
+            if (status == "Delivered") {
+                const deliveredDate = new Date();
+                // const completionTime = moment(deliveredDate).add(1, "minute");
+                const completionTime = moment(deliveredDate).add(1, "days");
+                setTimeout(async () => {
+                  const updatedOrder = await Order.findById(orderid);
+                  if (
+                    updatedOrder &&
+                    updatedOrder.status !== "Completed" &&
+                    updatedOrder.status !== "Return Requested" &&
+                    updatedOrder.status !== "Returned"
+                  ) {
+                    updatedOrder.status = "Completed";
+                    await updatedOrder.save();
+                  }
+                }, completionTime.diff(moment()));
+              }
+        
           
               res.send({ message: "1" });
             } else {

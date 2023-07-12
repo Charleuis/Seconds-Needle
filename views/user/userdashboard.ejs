@@ -115,13 +115,15 @@
                                                                         <button class="btn btn-outline-primary return">
                                                                             <a class="returnorder" data-id="<%= order._id %>">RETURN</a>
                                                                         </button>
+                                                                        <% } else if (order.status === "Completed") { %>
+                                                                            <button class="btn btn-info return" disabled>ORDER COMPLETED</button>
                                                                     <% } else if (order.status === "Return") { %>
                                                                         <a class="btn btn-outline-primary-2">Order cancelled</a>
-                                                                    <% } else { %>
+                                                                    <% } else  { %>
                                                                         <a class="btn btn-outline-primary-2"><%= order.status %></a>
                                                                     <% } %>
                                                                 </td>
-                                                                <% if (order.status !== "Delivered" && order.status !== "Return") { %>
+                                                                <% if (order.status !== "Delivered" && order.status !== "Completed" && order.status !== "Return") { %>
                                                                    <!-- Update the cancel order button -->
                                                                 <td class="remove">
                                                                     <a href="#" class="cancel-order" data-id="<%= order._id %>">
