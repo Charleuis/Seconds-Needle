@@ -212,34 +212,41 @@
                                 <div class="tab-pane fade" id="tab-address" role="tabpanel"
                                     aria-labelledby="tab-address-link">
                                     <div class="row">
-                                        <% useraddress.forEach(function(address){ %>
-                                            <div class="col-lg-6">
-                                                <div class="card card-dashboard">
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">
-                                                            <%=address.name%>
-                                                        </h3><!-- End .card-title -->
-                                                        <p>
-                                                            <%=address.address %><br>
-                                                            <%=address.city %><br>
-                                                            <%=address.State %><br>
-                                                            <%=address.landmark %><br>
-                                                            <%=address.Pincode %><br>
-                                                            <%=address.phone %><br>
-                                                                <a
-                                                                    href="/editAddress?id=<%=address._id %>">Edit<i
-                                                                        class="icon-edit"></i></a>&nbsp;&nbsp;
-                                                                        <a href="/deleteAddress?id=<%=address._id %>"
-                                                                            class="font-weight-bold">Delete
-                                                                                <i class="text-bold">
-                                                        </p></i></a>
-
-                                                    </div><!-- End .card-body -->
-                                                </div><!-- End .card-dashboard -->
-                                            </div><!-- End .col-lg-6 -->
-
+                                        <% if (useraddress && useraddress.length > 0) { %>
+                                            <% useraddress.forEach(function (address) { %>
+                                                <div class="col-lg-6">
+                                                    <div class="card card-dashboard">
+                                                        <div class="card-body">
+                                                            <h3 class="card-title">
+                                                                <%= address.name %>
+                                                            </h3><!-- End .card-title -->
+                                                            <p>
+                                                                <%= address.address %><br>
+                                                                <%= address.city %><br>
+                                                                <%= address.State %><br>
+                                                                <%= address.landmark %><br>
+                                                                <%= address.Pincode %><br>
+                                                                <%= address.phone %><br>
+                                                                <a href="/editAddress?id=<%= address._id %>">Edit <i class="icon-edit"></i></a>&nbsp;&nbsp;
+                                                                <a href="/deleteAddress?id=<%= address._id %>" class="font-weight-bold">Delete <i class="text-bold"></i></a>
+                                                            </p>
+                                                        </div><!-- End .card-body -->
+                                                    </div><!-- End .card-dashboard -->
+                                                </div><!-- End .col-lg-6 -->
                                             <% }) %>
+                                        <% } else { %>
+                                            <div class="col-lg-12">
+                                                <p>No Addresses are available</p>
+                                            </div>
+                                        <% } %>
+                                        <div class="col-lg-12">
+                                            <a href="/addAddress" class="btn btn-outline-primary-2">
+                                                <span>ADD ADDRESS</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </a>
+                                        </div>
                                     </div><!-- End .row -->
+                                    
                                 </div><!-- .End .tab-pane -->
 
                                 <!-- <div class="tab-pane fade" id="tab-account" role="tabpanel"
